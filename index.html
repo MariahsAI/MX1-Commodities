@@ -41,7 +41,7 @@
 --shadow:0 1px 2px rgba(0,0,0,.5),0 0 0 1px var(--border-sharp);
 --shadow-hover:0 4px 20px rgba(0,0,0,.6),0 0 0 1px var(--mx-blue-glow);
 }
-body{font-family:var(--font);background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh}
+body{font-family:var(--font);background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh;overflow-x:hidden}
 .dashboard{max-width:1440px;margin:0 auto;padding:20px 24px}
 
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
@@ -134,8 +134,62 @@ tr:hover td{color:var(--text-primary)}
 .metrics .metric:nth-child(1){animation-delay:.02s}.metrics .metric:nth-child(2){animation-delay:.04s}.metrics .metric:nth-child(3){animation-delay:.06s}.metrics .metric:nth-child(4){animation-delay:.08s}.metrics .metric:nth-child(5){animation-delay:.1s}
 .agent-cell{animation:fadeIn .25s ease both}
 
-@media(max-width:1200px){.metrics{grid-template-columns:repeat(3,1fr)}.agents-grid{grid-template-columns:repeat(3,1fr)}.grid-2-1,.grid-2-1b{grid-template-columns:1fr}.grid-1-1-1{grid-template-columns:1fr 1fr}.grid-4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr)}.agents-grid{grid-template-columns:repeat(2,1fr)}.grid-1-1-1{grid-template-columns:1fr}.grid-4{grid-template-columns:1fr 1fr}.topbar{flex-direction:column;gap:12px;align-items:flex-start}}
+@media(max-width:1200px){
+  .metrics{grid-template-columns:repeat(3,1fr)}
+  .agents-grid{grid-template-columns:repeat(3,1fr)}
+  .grid-2-1,.grid-2-1b{grid-template-columns:1fr}
+  .grid-1-1-1{grid-template-columns:1fr 1fr}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .right-stack{flex-direction:row;flex-wrap:wrap}
+  .right-stack .card{flex:1;min-width:240px}
+}
+
+@media(max-width:768px){
+  .dashboard{padding:12px}
+  .metrics{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+  .metric{padding:12px 14px}
+  .metric-value{font-size:18px}
+  .metric-label{font-size:10px}
+  .agents-grid{grid-template-columns:repeat(2,1fr)}
+  .grid-1-1-1{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .grid-2-1,.grid-2-1b{grid-template-columns:1fr;gap:10px}
+  .right-stack{flex-direction:column}
+  .topbar{flex-direction:column;gap:10px;align-items:flex-start;margin-bottom:16px}
+  .topbar-right{flex-wrap:wrap;gap:8px;width:100%}
+  select{min-width:0;width:100%;font-size:12px}
+  .card{padding:14px 16px}
+  .card-title{font-size:11px}
+  .agent-cell{padding:10px 8px}
+  .agent-signal{font-size:13px}
+  .agent-name{font-size:9px}
+  .analysis-box{max-height:140px}
+  table{font-size:11px}
+  th,td{padding:8px 0}
+}
+
+@media(max-width:480px){
+  .dashboard{padding:10px}
+  .metrics{grid-template-columns:1fr 1fr;gap:6px}
+  .metric{padding:10px 12px}
+  .metric-value{font-size:16px}
+  .sparkline{height:18px}
+  .agents-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+  .agent-cell{padding:8px 6px}
+  .grid-4{grid-template-columns:1fr}
+  .topbar-left h1{font-size:15px}
+  .topbar-left p{font-size:10px}
+  .badge{font-size:9px;padding:4px 10px}
+  .card-title{font-size:10px;margin-bottom:10px}
+  .bar-row{font-size:11px}
+  .data-row{font-size:11px}
+  .bottom-value{font-size:13px}
+  .bottom-label{font-size:9px}
+  .event-row{font-size:11px}
+  .analysis-box{font-size:11px}
+  .td-commodity{font-size:11px}
+}
+
 </style>
 </head>
 <body>
@@ -197,7 +251,7 @@ tr:hover td{color:var(--text-primary)}
 </div>
 
 <div class="grid-2-1">
-  <div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
     <!-- CANDLESTICK CHART -->
     <div class="card" style="padding:16px 20px 12px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
@@ -209,7 +263,7 @@ tr:hover td{color:var(--text-primary)}
           <span class="tf-btn">1W</span>
         </div>
       </div>
-      <div style="position:relative;height:280px">
+      <div style="position:relative;height:clamp(180px,35vw,280px)">
         <canvas id="candleChart"></canvas>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;font-family:var(--mono);color:var(--text-muted)">
