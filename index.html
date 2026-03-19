@@ -53,6 +53,7 @@ select{background:var(--bg-card);color:var(--text-primary);border:1px solid var(
 select:hover{border-color:var(--border-hover)}
 select:focus{border-color:var(--mx-blue);box-shadow:0 0 0 1px var(--mx-blue)}
 option{background:var(--bg-card)}
+optgroup{background:var(--bg-secondary);color:var(--text-muted);font-size:11px;font-family:var(--mono);letter-spacing:0.5px}
 .badge{padding:5px 13px;font-size:10px;font-weight:600;border-radius:3px;letter-spacing:0.5px;text-transform:uppercase;font-family:var(--mono);box-shadow:var(--shadow)}
 .badge-open{background:var(--mx-green-dim);color:var(--mx-green);border:1px solid #22c55e18}
 .badge-kill{background:var(--mx-red-dim);color:var(--mx-red);border:1px solid #ef444418;cursor:pointer;transition:all .2s}
@@ -127,7 +128,22 @@ tr:hover td{color:var(--text-primary)}
 .event-time{color:var(--text-muted);min-width:65px}
 .event-type{min-width:120px;font-weight:600}
 
-.pulse{animation:pulse 2s infinite}
+.commodity-nav{margin-bottom:20px;display:flex;flex-direction:column;gap:10px}
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cat-tab{background:var(--bg-card);border:1px solid var(--border-sharp);color:var(--text-muted);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;padding:6px 16px;border-radius:4px;cursor:pointer;transition:all .2s}
+.cat-tab:hover{color:var(--text-primary);border-color:var(--border-hover)}
+.cat-tab.active{background:var(--mx-blue-dim);border-color:var(--mx-blue);color:var(--mx-blue-bright)}
+.commodity-pills{display:flex;gap:6px;flex-wrap:wrap}
+.com-pill{background:var(--bg-secondary);border:1px solid var(--border-sharp);color:var(--text-secondary);font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:3px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.com-pill:hover{border-color:var(--mx-blue);color:var(--text-primary)}
+.com-pill.active{background:var(--mx-blue-dim);border-color:var(--mx-blue-bright);color:var(--mx-blue-bright);font-weight:500}
+@media(max-width:768px){
+  .cat-tabs{gap:5px}
+  .cat-tab{font-size:10px;padding:6px 12px}
+  .commodity-pills{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+  .commodity-pills::-webkit-scrollbar{height:2px}
+  .commodity-pills::-webkit-scrollbar-thumb{background:var(--border-sharp);border-radius:1px}
+}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 .card,.metric,.bottom-card{animation:fadeIn .3s ease both}
@@ -203,18 +219,21 @@ tr:hover td{color:var(--text-primary)}
     </div>
   </div>
   <div class="topbar-right">
-    <select id="commodity-select">
-      <option>Gold (GC)</option><option>Crude oil (CL)</option><option>Brent (BZ)</option>
-      <option>Natural gas (NG)</option><option>Silver (SI)</option><option>Platinum (PL)</option>
-      <option>Palladium (PA)</option><option>Copper (HG)</option><option>Corn (ZC)</option>
-      <option>Soybeans (ZS)</option><option>Wheat (ZW)</option><option>Cotton (CT)</option>
-      <option>Coffee (KC)</option><option>Sugar (SB)</option><option>Cocoa (CC)</option>
-      <option>Live cattle (LE)</option><option>Lean hogs (HE)</option><option>Feeder cattle (GF)</option>
-      <option>Gasoline (RB)</option><option>Heating oil (HO)</option>
-    </select>
     <div class="badge badge-open"><span class="pulse">●</span>&nbsp; Market open</div>
     <div class="badge badge-kill" onclick="alert('⚠ KILL SWITCH ACTIVATED\n\nAll positions flattened.\nAll orders cancelled.\nTrading halted.')">◼ Kill switch</div>
   </div>
+</div>
+
+<!-- Category + Commodity Selector -->
+<div class="commodity-nav">
+  <div class="cat-tabs">
+    <button class="cat-tab active" data-cat="metals">Metals</button>
+    <button class="cat-tab" data-cat="energy">Energy</button>
+    <button class="cat-tab" data-cat="grains">Grains</button>
+    <button class="cat-tab" data-cat="softs">Softs</button>
+    <button class="cat-tab" data-cat="livestock">Livestock</button>
+  </div>
+  <div class="commodity-pills" id="commodity-pills"></div>
 </div>
 
 <div class="metrics">
@@ -467,26 +486,37 @@ let activeTF      = '4H';
 
 // ── SEED PRICES ─────────────────────────────────────────────────
 const seedPrices = {
+  // Metals
   'Gold (GC)':          { price: 3025.40, pct: +0.82 },
-  'Crude oil (CL)':     { price: 68.54,   pct: +1.14 },
-  'Brent (BZ)':         { price: 71.80,   pct: +0.93 },
-  'Natural gas (NG)':   { price: 4.182,   pct: -0.62 },
   'Silver (SI)':        { price: 33.85,   pct: +1.23 },
   'Platinum (PL)':      { price: 988.60,  pct: +0.38 },
   'Palladium (PA)':     { price: 918.20,  pct: -1.15 },
   'Copper (HG)':        { price: 5.024,   pct: +0.45 },
+  // Energy
+  'Crude oil (CL)':     { price: 68.54,   pct: +1.14 },
+  'Brent (BZ)':         { price: 71.80,   pct: +0.93 },
+  'Natural gas (NG)':   { price: 4.182,   pct: -0.62 },
+  'Gasoline (RB)':      { price: 218.12,  pct: +0.67 },
+  'Heating oil (HO)':   { price: 219.80,  pct: +0.54 },
+  // Grains
   'Corn (ZC)':          { price: 461.50,  pct: -0.31 },
   'Soybeans (ZS)':      { price: 1024.00, pct: +0.18 },
+  'Soybean oil (ZL)':   { price: 44.82,   pct: +0.22 },
+  'Soybean meal (ZM)':  { price: 298.40,  pct: -0.44 },
   'Wheat (ZW)':         { price: 538.25,  pct: -0.54 },
-  'Cotton (CT)':        { price: 66.12,   pct: -1.08 },
+  'Oats (ZO)':          { price: 318.75,  pct: +0.12 },
+  'Rice (ZR)':          { price: 1424.00, pct: -0.08 },
+  // Softs
   'Coffee (KC)':        { price: 387.45,  pct: +2.31 },
-  'Sugar (SB)':         { price: 19.28,   pct: +0.72 },
   'Cocoa (CC)':         { price: 9180,    pct: +1.88 },
+  'Sugar (SB)':         { price: 19.28,   pct: +0.72 },
+  'Cotton (CT)':        { price: 66.12,   pct: -1.08 },
+  'Orange juice (OJ)':  { price: 428.50,  pct: +0.95 },
+  'Lumber (LBS)':       { price: 542.80,  pct: -1.32 },
+  // Livestock
   'Live cattle (LE)':   { price: 204.20,  pct: +0.41 },
   'Lean hogs (HE)':     { price: 88.34,   pct: -0.92 },
   'Feeder cattle (GF)': { price: 281.80,  pct: +0.28 },
-  'Gasoline (RB)':      { price: 218.12,  pct: +0.67 },
-  'Heating oil (HO)':   { price: 219.80,  pct: +0.54 },
 };
 
 // ── HELPERS ──────────────────────────────────────────────────────
@@ -618,7 +648,44 @@ function setPrice(commodity) {
   renderChart(activeTF);
 }
 
-document.getElementById('commodity-select').addEventListener('change', function(){ setPrice(this.value); });
+// ── COMMODITY NAV ────────────────────────────────────────────────
+const categories = {
+  metals:    ['Gold (GC)','Silver (SI)','Platinum (PL)','Palladium (PA)','Copper (HG)'],
+  energy:    ['Crude oil (CL)','Brent (BZ)','Natural gas (NG)','Gasoline (RB)','Heating oil (HO)'],
+  grains:    ['Corn (ZC)','Soybeans (ZS)','Soybean oil (ZL)','Soybean meal (ZM)','Wheat (ZW)','Oats (ZO)','Rice (ZR)'],
+  softs:     ['Coffee (KC)','Cocoa (CC)','Sugar (SB)','Cotton (CT)','Orange juice (OJ)','Lumber (LBS)'],
+  livestock: ['Live cattle (LE)','Lean hogs (HE)','Feeder cattle (GF)'],
+};
+
+let activeCommodity = 'Gold (GC)';
+
+function renderPills(cat) {
+  const container = document.getElementById('commodity-pills');
+  container.innerHTML = '';
+  categories[cat].forEach(name => {
+    const pill = document.createElement('button');
+    pill.className = 'com-pill' + (name === activeCommodity ? ' active' : '');
+    pill.textContent = name;
+    pill.addEventListener('click', () => {
+      activeCommodity = name;
+      document.querySelectorAll('.com-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      setPrice(name);
+    });
+    container.appendChild(pill);
+  });
+}
+
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderPills(tab.dataset.cat);
+  });
+});
+
+// Init pills with metals
+renderPills('metals');
 
 // ── TIMEFRAME BUTTONS ────────────────────────────────────────────
 document.querySelectorAll('.tf-btn').forEach(btn => {
@@ -626,7 +693,7 @@ document.querySelectorAll('.tf-btn').forEach(btn => {
     document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('tf-active'));
     this.classList.add('tf-active');
     const tf = this.textContent.trim();
-    document.getElementById('chart-title').textContent = document.getElementById('commodity-select').value + ' — ' + tf + ' chart';
+    document.getElementById('chart-title').textContent = activeCommodity + ' — ' + tf + ' chart';
     renderChart(tf);
   });
 });
