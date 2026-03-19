@@ -898,12 +898,15 @@ function cancelClose() {
   clearTimeout(closeTimer);
 }
 
-flyoutWrap.addEventListener('mouseenter', openFlyout);
-flyoutWrap.addEventListener('mouseleave', schedulClose);
-flyoutMenu.addEventListener('mouseenter', cancelClose);
-flyoutMenu.addEventListener('mouseleave', schedulClose);
+const isTouchDevice = () => window.matchMedia('(hover: none)').matches;
 
-document.getElementById('flyout-trigger').addEventListener('click', () => {
+flyoutWrap.addEventListener('mouseenter', () => { if (!isTouchDevice()) openFlyout(); });
+flyoutWrap.addEventListener('mouseleave', () => { if (!isTouchDevice()) schedulClose(); });
+flyoutMenu.addEventListener('mouseenter', () => { if (!isTouchDevice()) cancelClose(); });
+flyoutMenu.addEventListener('mouseleave', () => { if (!isTouchDevice()) schedulClose(); });
+
+document.getElementById('flyout-trigger').addEventListener('click', (e) => {
+  e.stopPropagation();
   if (flyoutWrap.classList.contains('open')) {
     clearTimeout(closeTimer);
     flyoutWrap.classList.remove('open');
@@ -922,7 +925,8 @@ function showCategoryItems(cat) {
   flyoutItems.classList.add('visible');
 
   flyoutItems.querySelectorAll('.flyout-item').forEach(item => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
       activeCommodity = item.dataset.name;
       activeCategory  = cat;
       document.getElementById('selected-commodity').textContent = activeCommodity;
@@ -936,11 +940,14 @@ function showCategoryItems(cat) {
 }
 
 document.querySelectorAll('.flyout-cat').forEach(cat => {
-  cat.addEventListener('mouseenter', () => showCategoryItems(cat.dataset.cat));
-  cat.addEventListener('click',      () => showCategoryItems(cat.dataset.cat));
+  cat.addEventListener('mouseenter', () => { if (!isTouchDevice()) showCategoryItems(cat.dataset.cat); });
+  cat.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showCategoryItems(cat.dataset.cat);
+  });
 });
 
-// Close on outside click
+// Close on outside click/tap
 document.addEventListener('click', e => {
   if (!flyoutWrap.contains(e.target)) {
     clearTimeout(closeTimer);
