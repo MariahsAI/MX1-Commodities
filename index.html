@@ -128,23 +128,87 @@ tr:hover td{color:var(--text-primary)}
 .event-time{color:var(--text-muted);min-width:65px}
 .event-type{min-width:120px;font-weight:600}
 
-.commodity-nav{margin-bottom:20px;display:flex;flex-direction:column;gap:10px}
-.cat-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.cat-tab{background:var(--bg-card);border:1px solid var(--border-sharp);color:var(--text-muted);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;padding:6px 16px;border-radius:4px;cursor:pointer;transition:all .2s}
-.cat-tab:hover{color:var(--text-primary);border-color:var(--border-hover)}
-.cat-tab.active{background:var(--mx-blue-dim);border-color:var(--mx-blue);color:var(--mx-blue-bright)}
-.commodity-pills{display:flex;gap:6px;flex-wrap:wrap}
-.com-pill{background:var(--bg-secondary);border:1px solid var(--border-sharp);color:var(--text-secondary);font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:3px;cursor:pointer;transition:all .15s;white-space:nowrap}
-.com-pill:hover{border-color:var(--mx-blue);color:var(--text-primary)}
-.com-pill.active{background:var(--mx-blue-dim);border-color:var(--mx-blue-bright);color:var(--mx-blue-bright);font-weight:500}
+.commodity-nav{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+
+/* Flyout trigger */
+.flyout-wrap{position:relative}
+.flyout-trigger{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg-card);border:1px solid var(--border-sharp);border-radius:var(--radius);padding:10px 16px;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:all .2s;box-shadow:var(--shadow);user-select:none;letter-spacing:0.3px;min-width:190px;height:52px}
+.flyout-trigger:hover,.flyout-wrap.open .flyout-trigger{border-color:var(--mx-blue);color:var(--mx-blue-bright)}
+.flyout-trigger svg{transition:transform .2s;color:var(--text-muted);flex-shrink:0}
+.flyout-wrap.open .flyout-trigger svg{transform:rotate(180deg);color:var(--mx-blue-bright)}
+
+/* Flyout menu */
+.flyout-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:200;background:var(--bg-card);border:1px solid var(--border-sharp);border-radius:var(--radius-lg);box-shadow:0 12px 40px rgba(0,0,0,.7),0 0 0 1px var(--mx-blue-glow);min-width:160px;animation:menuFade .15s ease}
+.flyout-wrap.open .flyout-menu{display:flex}
+@keyframes menuFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Category list */
+.flyout-categories{border-right:1px solid var(--border-sharp);min-width:130px}
+.flyout-cat{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;font-family:var(--mono);font-size:12px;color:var(--text-secondary);cursor:pointer;transition:all .1s;white-space:nowrap}
+.flyout-cat span{color:var(--text-muted);font-size:13px}
+.flyout-cat:hover,.flyout-cat.active{background:var(--mx-blue-dim);color:var(--mx-blue-bright)}
+.flyout-cat:hover span,.flyout-cat.active span{color:var(--mx-blue-bright)}
+
+/* Items panel */
+.flyout-items{min-width:190px;display:none;flex-direction:column;padding:6px 0}
+.flyout-items.visible{display:flex}
+.flyout-item{padding:12px 20px;font-family:var(--mono);font-size:12px;color:var(--text-secondary);cursor:pointer;transition:all .1s;white-space:nowrap}
+.flyout-item:hover{background:var(--mx-blue-dim);color:var(--mx-blue-bright)}
+.flyout-item.active{color:var(--mx-blue-bright);font-weight:500}
+.flyout-items-label{font-size:9px;letter-spacing:0.8px;text-transform:uppercase;color:var(--text-muted);padding:8px 20px 6px;border-bottom:1px solid var(--border-sharp);margin-bottom:4px}
+
+/* Selected badge */
+.selected-badge{display:flex;flex-direction:column;justify-content:center;background:var(--mx-blue-dim);border:1px solid var(--mx-blue-glow);border-radius:var(--radius);padding:10px 16px;min-width:190px;height:52px;transition:all .3s}
+.selected-commodity{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--mx-blue-bright);line-height:1.2}
+.selected-category{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:0.4px;margin-top:2px;text-transform:uppercase}
+
 @media(max-width:768px){
-  .cat-tabs{gap:5px}
-  .cat-tab{font-size:10px;padding:6px 12px}
-  .commodity-pills{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;-webkit-overflow-scrolling:touch}
-  .commodity-pills::-webkit-scrollbar{height:2px}
-  .commodity-pills::-webkit-scrollbar-thumb{background:var(--border-sharp);border-radius:1px}
+  .commodity-nav{flex-wrap:wrap}
+  .flyout-menu{position:fixed;top:auto;bottom:0;left:0;right:0;border-radius:12px 12px 0 0;flex-direction:column}
+  .flyout-categories{border-right:none;border-bottom:1px solid var(--border-sharp);display:flex;flex-wrap:wrap;gap:0}
+  .flyout-cat{flex:1;min-width:90px;justify-content:center;text-align:center;font-size:10px;padding:10px 8px}
+  .flyout-cat span{display:none}
+  .flyout-items{min-width:0;width:100%;flex-direction:row;flex-wrap:wrap}
+  .flyout-item{flex:1;min-width:120px;text-align:center}
 }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ── TICKER TAPE ── */
+.ticker-wrap{width:100%;overflow:hidden;background:var(--bg-secondary);border-bottom:1px solid var(--border-sharp);height:36px;display:flex;align-items:center;position:relative}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-secondary),transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-secondary),transparent)}
+.ticker-track{display:flex;gap:0;white-space:nowrap;animation:tickerScroll 120s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 20px;border-right:1px solid var(--border-sharp);height:36px;cursor:pointer;transition:background .15s}
+.ticker-item:hover{background:var(--bg-hover)}
+.ticker-item.flash-up{animation:tickFlashUp .5s ease-out}
+.ticker-item.flash-down{animation:tickFlashDown .5s ease-out}
+@keyframes tickFlashUp{0%{background:rgba(29,184,160,.2)}100%{background:transparent}}
+@keyframes tickFlashDown{0%{background:rgba(239,68,68,.2)}100%{background:transparent}}
+.ticker-name{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text-primary);letter-spacing:0.3px}
+.ticker-price{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-primary)}
+.ticker-chg{font-family:var(--mono);font-size:10px;font-weight:500}
+.ticker-chg.up{color:var(--mx-teal)}
+.ticker-chg.down{color:var(--mx-red)}
+.ticker-spark{display:inline-block;vertical-align:middle}
+@keyframes flashGreen{0%{background:rgba(29,184,160,.2);color:#2ee8c8}100%{background:transparent}}
+@keyframes flashRed{0%{background:rgba(239,68,68,.2);color:#ff6b6b}100%{background:transparent}}
+.flash-up{animation:flashGreen .7s ease-out}
+.flash-down{animation:flashRed .7s ease-out}
+
+/* ── BADGE GLOW ── */
+.badge-open{animation:badgeGlow 2.5s ease-in-out infinite !important}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 6px rgba(34,197,94,.15),0 0 0 1px #22c55e18}50%{box-shadow:0 0 20px rgba(34,197,94,.4),0 0 0 1px #22c55e50}}
+
+/* ── BACKGROUND ── */
+body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !important;min-height:100vh}
+
+/* ── PILL PRICES ── */
+.pill-price{font-size:9px;opacity:.75;letter-spacing:0;font-weight:400}
+.pill-price.up{color:var(--mx-teal)}
+.pill-price.down{color:var(--mx-red)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 .card,.metric,.bottom-card{animation:fadeIn .3s ease both}
 .metrics .metric:nth-child(1){animation-delay:.02s}.metrics .metric:nth-child(2){animation-delay:.04s}.metrics .metric:nth-child(3){animation-delay:.06s}.metrics .metric:nth-child(4){animation-delay:.08s}.metrics .metric:nth-child(5){animation-delay:.1s}
@@ -209,6 +273,12 @@ tr:hover td{color:var(--text-primary)}
 </style>
 </head>
 <body>
+
+<!-- ── TICKER TAPE ── -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
 <div class="dashboard">
 
 <div class="topbar">
@@ -224,16 +294,29 @@ tr:hover td{color:var(--text-primary)}
   </div>
 </div>
 
-<!-- Category + Commodity Selector -->
+<!-- Commodity selector with flyout + selection badge -->
 <div class="commodity-nav">
-  <div class="cat-tabs">
-    <button class="cat-tab active" data-cat="metals">Metals</button>
-    <button class="cat-tab" data-cat="energy">Energy</button>
-    <button class="cat-tab" data-cat="grains">Grains</button>
-    <button class="cat-tab" data-cat="softs">Softs</button>
-    <button class="cat-tab" data-cat="livestock">Livestock</button>
+  <div class="flyout-wrap" id="flyout-wrap">
+    <div class="flyout-trigger" id="flyout-trigger">
+      Choose Commodity
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="flyout-menu" id="flyout-menu">
+      <div class="flyout-categories">
+        <div class="flyout-cat" data-cat="metals">Metals <span>›</span></div>
+        <div class="flyout-cat" data-cat="energy">Energy <span>›</span></div>
+        <div class="flyout-cat" data-cat="grains">Grains <span>›</span></div>
+        <div class="flyout-cat" data-cat="softs">Softs <span>›</span></div>
+        <div class="flyout-cat" data-cat="livestock">Livestock <span>›</span></div>
+      </div>
+      <div class="flyout-items" id="flyout-items"></div>
+    </div>
   </div>
-  <div class="commodity-pills" id="commodity-pills"></div>
+
+  <div class="selected-badge" id="selected-badge">
+    <div class="selected-commodity" id="selected-commodity">Gold (GC)</div>
+    <div class="selected-category" id="selected-category">Metals</div>
+  </div>
 </div>
 
 <div class="metrics">
@@ -629,7 +712,17 @@ function renderChart(tf) {
     candleChart.options.scales.y.min=mn; candleChart.options.scales.y.max=mx;
     candleChart.update('none');
     currentPrice = newClose;
-    document.getElementById('price-display').textContent = formatPrice(currentPrice);
+    const priceEl = document.getElementById('price-display');
+    const newFmt = formatPrice(currentPrice);
+    const oldVal = parseFloat(priceEl.dataset.last || currentPrice);
+    priceEl.textContent = newFmt;
+    priceEl.dataset.last = currentPrice;
+    priceEl.classList.remove('flash-up','flash-down');
+    void priceEl.offsetWidth;
+    priceEl.classList.add(currentPrice >= oldVal ? 'flash-up' : 'flash-down');
+
+    // Update sparkline on price card
+    updateSparkline();
   }, cfg.interval);
 }
 
@@ -648,7 +741,100 @@ function setPrice(commodity) {
   renderChart(activeTF);
 }
 
-// ── COMMODITY NAV ────────────────────────────────────────────────
+// ── TICKER TAPE ─────────────────────────────────────────────────
+const tickerData = {};
+const allCommodities = Object.keys(seedPrices);
+
+// Init ticker prices and spark histories
+allCommodities.forEach(name => {
+  const seed = seedPrices[name];
+  tickerData[name] = {
+    price: seed.price,
+    pct: seed.pct,
+    history: Array.from({length: 12}, (_,i) => seed.price * (1 + (Math.random()-0.5)*0.004)),
+  };
+});
+
+function sparkPath(history, w, h) {
+  const min = Math.min(...history);
+  const max = Math.max(...history);
+  const range = max - min || 1;
+  return history.map((v,i) => {
+    const x = (i/(history.length-1))*w;
+    const y = h - ((v-min)/range)*(h-2) - 1;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+}
+
+function buildTickerHTML() {
+  return allCommodities.map(name => {
+    const d = tickerData[name];
+    const up = d.pct >= 0;
+    const short = name.replace(/\s*\(.*\)/, '');
+    const ticker = name.match(/\(([^)]+)\)/)?.[1] || '';
+    const pts = sparkPath(d.history, 40, 16);
+    const color = up ? '#1db8a0' : '#ef4444';
+    return `<div class="ticker-item" data-name="${name}" onclick="selectFromTicker('${name}')">
+      <span class="ticker-name">${ticker}</span>
+      <svg class="ticker-spark" width="40" height="16" viewBox="0 0 40 16">
+        <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.2" opacity="0.8"/>
+      </svg>
+      <span class="ticker-price">${formatPrice(d.price)}</span>
+      <span class="ticker-chg ${up?'up':'down'}">${up?'▲':'▼'}${Math.abs(d.pct).toFixed(2)}%</span>
+    </div>`;
+  }).join('');
+}
+
+function renderTicker() {
+  const html = buildTickerHTML();
+  // Duplicate for seamless loop
+  document.getElementById('ticker-track').innerHTML = html + html;
+}
+
+function selectFromTicker(name) {
+  activeCommodity = name;
+  for (const [cat, items] of Object.entries(flyoutCategories)) {
+    if (items.includes(name)) {
+      activeCategory = cat;
+      document.getElementById('selected-commodity').textContent = name;
+      document.getElementById('selected-category').textContent  = catLabels[cat];
+      break;
+    }
+  }
+  setPrice(name);
+}
+
+// Tick all ticker prices every 1.5s
+setInterval(() => {
+  allCommodities.forEach(name => {
+    const d = tickerData[name];
+    const vol = seedPrices[name].price * 0.0004;
+    const prev = d.price;
+    d.price = Math.max(d.price + (Math.random()-0.495)*vol, 0.01);
+    d.pct = ((d.price - seedPrices[name].price) / seedPrices[name].price) * 100;
+    d.history.push(d.price);
+    if (d.history.length > 12) d.history.shift();
+
+    // Update DOM directly for performance
+    const items = document.querySelectorAll(`.ticker-item[data-name="${name}"]`);
+    items.forEach(item => {
+      const up = d.price >= prev;
+      const color = d.pct >= 0 ? '#1db8a0' : '#ef4444';
+      item.querySelector('.ticker-price').textContent = formatPrice(d.price);
+      const chg = item.querySelector('.ticker-chg');
+      chg.textContent = (d.pct >= 0 ? '▲' : '▼') + Math.abs(d.pct).toFixed(2) + '%';
+      chg.className = 'ticker-chg ' + (d.pct >= 0 ? 'up' : 'down');
+      const poly = item.querySelector('polyline');
+      if (poly) {
+        poly.setAttribute('points', sparkPath(d.history, 40, 16));
+        poly.setAttribute('stroke', color);
+      }
+
+    });
+  });
+}, 1500);
+
+renderTicker();
 const categories = {
   metals:    ['Gold (GC)','Silver (SI)','Platinum (PL)','Palladium (PA)','Copper (HG)'],
   energy:    ['Crude oil (CL)','Brent (BZ)','Natural gas (NG)','Gasoline (RB)','Heating oil (HO)'],
@@ -657,35 +843,97 @@ const categories = {
   livestock: ['Live cattle (LE)','Lean hogs (HE)','Feeder cattle (GF)'],
 };
 
-let activeCommodity = 'Gold (GC)';
+// ── FLYOUT DROPDOWN ──────────────────────────────────────────────
+const flyoutCategories = {
+  metals:    ['Gold (GC)','Silver (SI)','Platinum (PL)','Palladium (PA)','Copper (HG)'],
+  energy:    ['Crude oil (CL)','Brent (BZ)','Natural gas (NG)','Gasoline (RB)','Heating oil (HO)'],
+  grains:    ['Corn (ZC)','Soybeans (ZS)','Soybean oil (ZL)','Soybean meal (ZM)','Wheat (ZW)','Oats (ZO)','Rice (ZR)'],
+  softs:     ['Coffee (KC)','Cocoa (CC)','Sugar (SB)','Cotton (CT)','Orange juice (OJ)','Lumber (LBS)'],
+  livestock: ['Live cattle (LE)','Lean hogs (HE)','Feeder cattle (GF)'],
+};
+const catLabels = {metals:'Metals',energy:'Energy',grains:'Grains',softs:'Softs',livestock:'Livestock'};
 
-function renderPills(cat) {
-  const container = document.getElementById('commodity-pills');
-  container.innerHTML = '';
-  categories[cat].forEach(name => {
-    const pill = document.createElement('button');
-    pill.className = 'com-pill' + (name === activeCommodity ? ' active' : '');
-    pill.textContent = name;
-    pill.addEventListener('click', () => {
-      activeCommodity = name;
-      document.querySelectorAll('.com-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      setPrice(name);
+let activeCommodity = 'Gold (GC)';
+let activeCategory  = 'metals';
+let closeTimer      = null;
+
+const flyoutWrap  = document.getElementById('flyout-wrap');
+const flyoutItems = document.getElementById('flyout-items');
+const flyoutMenu  = document.getElementById('flyout-menu');
+
+function openFlyout() {
+  clearTimeout(closeTimer);
+  flyoutWrap.classList.add('open');
+  // Auto-show first category
+  if (!flyoutItems.classList.contains('visible')) {
+    showCategoryItems(activeCategory);
+  }
+}
+
+function schedulClose() {
+  closeTimer = setTimeout(() => {
+    flyoutWrap.classList.remove('open');
+    flyoutItems.classList.remove('visible');
+  }, 300);
+}
+
+function cancelClose() {
+  clearTimeout(closeTimer);
+}
+
+flyoutWrap.addEventListener('mouseenter', openFlyout);
+flyoutWrap.addEventListener('mouseleave', schedulClose);
+flyoutMenu.addEventListener('mouseenter', cancelClose);
+flyoutMenu.addEventListener('mouseleave', schedulClose);
+
+document.getElementById('flyout-trigger').addEventListener('click', () => {
+  if (flyoutWrap.classList.contains('open')) {
+    clearTimeout(closeTimer);
+    flyoutWrap.classList.remove('open');
+    flyoutItems.classList.remove('visible');
+  } else {
+    openFlyout();
+  }
+});
+
+function showCategoryItems(cat) {
+  document.querySelectorAll('.flyout-cat').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+  flyoutItems.innerHTML = `<div class="flyout-items-label">${catLabels[cat]}</div>` +
+    flyoutCategories[cat].map(name =>
+      `<div class="flyout-item${name === activeCommodity ? ' active' : ''}" data-name="${name}">${name}</div>`
+    ).join('');
+  flyoutItems.classList.add('visible');
+
+  flyoutItems.querySelectorAll('.flyout-item').forEach(item => {
+    item.addEventListener('click', () => {
+      activeCommodity = item.dataset.name;
+      activeCategory  = cat;
+      document.getElementById('selected-commodity').textContent = activeCommodity;
+      document.getElementById('selected-category').textContent  = catLabels[cat];
+      setPrice(activeCommodity);
+      clearTimeout(closeTimer);
+      flyoutWrap.classList.remove('open');
+      flyoutItems.classList.remove('visible');
     });
-    container.appendChild(pill);
   });
 }
 
-document.querySelectorAll('.cat-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderPills(tab.dataset.cat);
-  });
+document.querySelectorAll('.flyout-cat').forEach(cat => {
+  cat.addEventListener('mouseenter', () => showCategoryItems(cat.dataset.cat));
+  cat.addEventListener('click',      () => showCategoryItems(cat.dataset.cat));
 });
 
-// Init pills with metals
-renderPills('metals');
+// Close on outside click
+document.addEventListener('click', e => {
+  if (!flyoutWrap.contains(e.target)) {
+    clearTimeout(closeTimer);
+    flyoutWrap.classList.remove('open');
+    flyoutItems.classList.remove('visible');
+  }
+});
+
+// ── INIT ─────────────────────────────────────────────────────────
+setPrice('Gold (GC)');
 
 // ── TIMEFRAME BUTTONS ────────────────────────────────────────────
 document.querySelectorAll('.tf-btn').forEach(btn => {
@@ -698,8 +946,81 @@ document.querySelectorAll('.tf-btn').forEach(btn => {
   });
 });
 
-// ── INIT ─────────────────────────────────────────────────────────
-setPrice('Gold (GC)');
+// ── ANIMATED SPARKLINE ───────────────────────────────────────────
+const sparkHistory = [];
+function updateSparkline() {
+  sparkHistory.push(currentPrice);
+  if (sparkHistory.length > 20) sparkHistory.shift();
+  if (sparkHistory.length < 2) return;
+  const min = Math.min(...sparkHistory);
+  const max = Math.max(...sparkHistory);
+  const range = max - min || 1;
+  const w = 80, h = 24;
+  const pts = sparkHistory.map((v, i) => {
+    const x = (i / (sparkHistory.length - 1)) * w;
+    const y = h - ((v - min) / range) * (h - 4) - 2;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const sparkEl = document.querySelector('.metric:first-child .sparkline polyline');
+  if (sparkEl) sparkEl.setAttribute('points', pts);
+}
+
+// ── LIVE PILL PRICES ─────────────────────────────────────────────
+const pillPrices = {};
+function updatePillPrices() {
+  document.querySelectorAll('.com-pill').forEach(pill => {
+    const name = pill.dataset.name;
+    if (!name || !seedPrices[name]) return;
+    let p = pillPrices[name] || seedPrices[name].price;
+    const drift = (Math.random() - 0.495) * seedPrices[name].price * 0.0003;
+    p = Math.max(p + drift, 0.01);
+    pillPrices[name] = p;
+    const span = pill.querySelector('.pill-price');
+    if (span) {
+      const up = p >= seedPrices[name].price;
+      span.textContent = (up ? '▲' : '▼') + ' ' + formatPrice(p);
+      span.className = 'pill-price ' + (up ? 'up' : 'down');
+    }
+  });
+}
+setInterval(updatePillPrices, 99999999); // disabled - no pills
+
+// ── CROSSHAIR PLUGIN ─────────────────────────────────────────────
+const crosshairPlugin = {
+  id: 'crosshair',
+  afterDraw(chart) {
+    if (chart._crosshairX === undefined) return;
+    const { ctx, chartArea: { top, bottom } } = chart;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(59,156,240,0.3)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(chart._crosshairX, top);
+    ctx.lineTo(chart._crosshairX, bottom);
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+Chart.register(crosshairPlugin);
+
+// Add crosshair mouse tracking after chart renders
+function addCrosshair(canvas) {
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    if (candleChart) {
+      candleChart._crosshairX = e.clientX - rect.left;
+      candleChart.draw();
+    }
+  });
+  canvas.addEventListener('mouseleave', () => {
+    if (candleChart) {
+      candleChart._crosshairX = undefined;
+      candleChart.draw();
+    }
+  });
+}
+addCrosshair(document.getElementById('candleChart'));
 
 </script>
 </body>
