@@ -391,47 +391,21 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
     </div>
     <div class="card">
       <div class="card-title">Agent signals</div>
-      <div class="agents-grid">
-      <div class="agent-cell"><div class="agent-name">Technical</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">82% · 15.2%w</div></div>
-      <div class="agent-cell"><div class="agent-name">COT</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">76% · 12.8%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Inventory</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">71% · 10.5%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Satellite</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">68% · 8.1%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Weather</div><div class="agent-signal signal-hold">HOLD</div><div class="agent-meta">55% · 8.0%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Vessel</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">64% · 7.2%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Seasonality</div><div class="agent-signal signal-sell">SELL</div><div class="agent-meta">61% · 6.5%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Macro</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">73% · 9.4%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Options flow</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">70% · 5.8%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Spreads</div><div class="agent-signal signal-hold">HOLD</div><div class="agent-meta">52% · 4.9%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Central bank</div><div class="agent-signal signal-buy">BUY</div><div class="agent-meta">75% · 6.1%w</div></div>
-      <div class="agent-cell"><div class="agent-name">Sanctions</div><div class="agent-signal signal-hold">HOLD</div><div class="agent-meta">50% · 5.5%w</div></div>
+      <div class="agents-grid" id="agents-grid"></div>
     </div>
-  </div>
   </div><!-- end left col -->
   <div class="right-stack">
     <div class="card" style="flex:1">
       <div class="card-title">COT positioning</div>
-      <div class="bar-row"><span>Commercials</span><span style="color:var(--mx-teal);font-weight:600;font-family:var(--mono)">87th %ile long</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:87%;background:linear-gradient(90deg,var(--mx-blue),var(--mx-teal))"></div></div>
-      <div class="bar-row"><span>Large speculators</span><span style="color:var(--mx-amber);font-weight:600;font-family:var(--mono)">72nd %ile long</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:72%;background:var(--mx-amber)"></div></div>
-      <div class="bar-row"><span>Small speculators</span><span style="font-weight:600;font-family:var(--mono)">45th %ile</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--text-muted)"></div></div>
+      <div id="cot-body"></div>
     </div>
     <div class="card">
       <div class="card-title">Futures curve</div>
-      <div class="data-row"><span>Structure</span><span class="data-value" style="color:var(--mx-amber)">Backwardation</span></div>
-      <div class="data-row"><span>Roll yield (ann.)</span><span class="data-value" style="color:var(--mx-teal)">+3.2%</span></div>
-      <div class="data-row"><span>Active contract</span><span class="data-value">GCQ25</span></div>
-      <div class="data-row"><span>Days to roll</span><span class="data-value">18</span></div>
+      <div id="futures-body"></div>
     </div>
     <div class="card">
       <div class="card-title">Volatility &amp; regime</div>
-      <div class="data-row"><span>IV rank (30d)</span><span class="data-value" style="color:var(--mx-teal)">22nd %ile</span></div>
-      <div class="data-row"><span>Realized vol</span><span class="data-value">11.4%</span></div>
-      <div class="data-row"><span>Vol regime</span><span class="data-value" style="color:var(--mx-teal)">Low</span></div>
-      <div class="data-row"><span>Trend strength</span><span class="data-value" style="color:var(--mx-teal)">Strong (ADX 38)</span></div>
-      <div class="data-row"><span>Market regime</span><span class="data-value" style="color:var(--mx-teal)">Trending bull</span></div>
-      <div class="data-row"><span>Corr. to DXY</span><span class="data-value" style="color:var(--mx-red)">−0.74</span></div>
+      <div id="vol-body"></div>
     </div>
   </div>
 </div>
@@ -439,29 +413,15 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
 <div class="grid-1-1-1">
   <div class="card">
     <div class="card-title">Regime detection</div>
-    <div class="regime-badge regime-bull" style="margin-bottom:14px">Trending bull</div>
-    <div class="data-row"><span>Volatility</span><span class="data-value">Low (22nd %ile)</span></div>
-    <div class="data-row"><span>Curve</span><span class="data-value" style="color:var(--mx-amber)">Backwardation</span></div>
-    <div class="data-row"><span>Volume</span><span class="data-value" style="color:var(--mx-teal)">Above average</span></div>
-    <div class="data-row"><span>Commercials</span><span class="data-value" style="color:var(--mx-teal)">Accumulating</span></div>
-    <div class="data-row"><span>Regime prob.</span><span class="data-value">74%</span></div>
+    <div id="regime-body"></div>
   </div>
   <div class="card">
-    <div class="card-title">Inventory status</div>
-    <div class="data-row"><span>EIA crude</span><span class="data-value" style="color:var(--mx-teal)">-3.2M bbl draw</span></div>
-    <div class="data-row"><span>vs estimate</span><span class="data-value" style="color:var(--mx-teal)">-1.5M expected</span></div>
-    <div class="data-row"><span>vs 5yr avg</span><span class="data-value" style="color:var(--mx-red)">+12M above</span></div>
-    <div class="data-row"><span>COMEX gold</span><span class="data-value">18.2M oz</span></div>
-    <div class="data-row"><span>LME copper</span><span class="data-value" style="color:var(--mx-teal)">Declining</span></div>
+    <div class="card-title" id="inventory-title">Inventory status</div>
+    <div id="inventory-body"></div>
   </div>
   <div class="card">
-    <div class="card-title">Intelligence feeds</div>
-    <div class="data-row"><span>Satellite NDVI</span><span class="data-value">Normal</span></div>
-    <div class="data-row"><span>Tanker flows</span><span class="data-value" style="color:var(--mx-teal)">+8% to China</span></div>
-    <div class="data-row"><span>Floating storage</span><span class="data-value" style="color:var(--mx-teal)">Declining</span></div>
-    <div class="data-row"><span>Sanctions risk</span><span class="data-value">Low (23/100)</span></div>
-    <div class="data-row"><span>News sentiment</span><span class="data-value" style="color:var(--mx-teal)">+0.62</span></div>
-    <div class="data-row"><span>ETF flows (GLD)</span><span class="data-value" style="color:var(--mx-teal)">+$180M 3d</span></div>
+    <div class="card-title" id="intel-title">Intelligence feeds</div>
+    <div id="intel-body"></div>
   </div>
 </div>
 
@@ -515,18 +475,7 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
 
 <div class="card" style="margin-bottom:20px">
   <div class="card-title">LLM trade analysis</div>
-  <div class="analysis-box">
-    <span class="analysis-label">GOLD BUY — 78% CONFIDENCE</span><br><br>
-    Strong bullish confluence across 9 of 12 active agents. COT data shows commercials at 87th percentile long positioning (3-year history), a level that has historically preceded +3-5% price advances within 4 weeks. Futures curve remains in backwardation with a positive 3.2% annualized roll yield, indicating tight physical supply conditions.
-    <br><br>
-    Central bank policy remains accommodative with real interest rates negative — the primary macro driver for gold. Fed dot plot suggests no rate hikes through Q3. DXY weakening supports the thesis.
-    <br><br>
-    Satellite imagery confirms no unusual activity at Cushing storage facilities. Vessel tracking shows declining global floating storage, consistent with physical demand strength. ETF flows show +$180M into GLD over the past 3 days, confirming institutional participation.
-    <br><br>
-    <strong style="color:var(--mx-amber)">Key risk:</strong> Seasonality agent signals SELL — gold historically weakens March through June. However, commercial positioning strength and backwardation override the seasonal tendency. The seasonality agent's confidence is only 61% and its fusion weight has been reduced to 6.5%.
-    <br><br>
-    <strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market ($2,341.80). Stop loss: $2,305.20 (-1.6% risk). Take profit target: $2,395.00 (+2.3% upside). Risk/reward: 1:1.4. Position sized at 1.8% of equity via Kelly criterion.
-  </div>
+  <div class="analysis-box" id="llm-analysis"></div>
 </div>
 
 <div class="grid-4">
@@ -756,6 +705,7 @@ function setPrice(commodity) {
   document.getElementById('price-label').textContent = commodity.replace(/\s*\(.*?\)/,'') + ' price';
   document.getElementById('chart-title').textContent = commodity + ' — ' + activeTF + ' chart';
   renderChart(activeTF);
+  renderCommodityData(commodity);
 }
 
 // ── TICKER TAPE ─────────────────────────────────────────────────
@@ -956,8 +906,799 @@ document.addEventListener('click', e => {
   }
 });
 
-// ── INIT ─────────────────────────────────────────────────────────
-setPrice('Gold (GC)');
+// ── COMMODITY DATA ENGINE ────────────────────────────────────────
+
+const commodityData = {
+  // ── METALS ──
+  'Gold (GC)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:82, weight:15.2},
+      {name:'COT',         signal:'BUY',  conf:76, weight:12.8},
+      {name:'Central bank',signal:'BUY',  conf:75, weight:11.0},
+      {name:'Macro',       signal:'BUY',  conf:73, weight:9.4},
+      {name:'ETF flows',   signal:'BUY',  conf:70, weight:8.6},
+      {name:'Options flow',signal:'BUY',  conf:70, weight:5.8},
+      {name:'Satellite',   signal:'BUY',  conf:68, weight:8.1},
+      {name:'Inventory',   signal:'BUY',  conf:71, weight:7.5},
+      {name:'Vessel',      signal:'BUY',  conf:64, weight:7.2},
+      {name:'Seasonality', signal:'SELL', conf:61, weight:6.5},
+      {name:'Spreads',     signal:'HOLD', conf:52, weight:4.9},
+      {name:'Sanctions',   signal:'HOLD', conf:50, weight:3.0},
+    ],
+    cot: [{label:'Commercials',val:87,color:'teal'},{label:'Large speculators',val:72,color:'amber'},{label:'Small speculators',val:45,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+3.2%',contract:'GCQ25',daysToRoll:18},
+    vol: {ivRank:'22nd %ile',realVol:'11.4%',regime:'Low',adx:'Strong (ADX 38)',mktRegime:'Trending bull',corr:'DXY −0.74'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low (22nd %ile)',c:''},{k:'Curve',v:'Backwardation',c:'amber'},{k:'Volume',v:'Above avg',c:'teal'},{k:'Commercials',v:'Accumulating',c:'teal'},{k:'Regime prob.',v:'74%',c:''}],
+    inventoryTitle:'Storage & flows',
+    inventory: [{k:'COMEX gold',v:'18.2M oz',c:''},{k:'ETF holdings',v:'+180M 3d',c:'teal'},{k:'Central bank buying',v:'Active',c:'teal'},{k:'Scrap supply',v:'Below avg',c:'teal'},{k:'Mining output',v:'Flat YoY',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Satellite (vaults)',v:'Normal',c:''},{k:'Sanctions risk',v:'Low (23/100)',c:'teal'},{k:'News sentiment',v:'+0.62',c:'teal'},{k:'DXY trend',v:'Weakening',c:'teal'},{k:'Real rates',v:'Negative',c:'teal'},{k:'Fed stance',v:'Dovish',c:'teal'}],
+    llm:'<span class="analysis-label">GOLD BUY — 78% CONFIDENCE</span><br><br>Strong bullish confluence across 9 of 12 active agents. COT data shows commercials at 87th percentile long positioning, a level historically preceding +3-5% price advances. Futures curve in backwardation with +3.2% annualized roll yield signals tight physical supply.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Seasonality agent signals SELL — gold historically weakens March–June. Commercial positioning strength overrides this.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −1.6%. Target +2.3%. R/R 1:1.4.',
+  },
+  'Silver (SI)': {
+    agents: [
+      {name:'Technical',    signal:'BUY',  conf:78, weight:14.0},
+      {name:'COT',          signal:'BUY',  conf:71, weight:11.5},
+      {name:'Industrial demand',signal:'BUY',conf:74,weight:12.0},
+      {name:'Gold ratio',   signal:'BUY',  conf:68, weight:10.0},
+      {name:'ETF flows',    signal:'BUY',  conf:65, weight:8.0},
+      {name:'Options flow', signal:'HOLD', conf:55, weight:6.0},
+      {name:'Macro',        signal:'BUY',  conf:70, weight:9.0},
+      {name:'Seasonality',  signal:'HOLD', conf:52, weight:6.5},
+      {name:'Mining supply',signal:'HOLD', conf:58, weight:7.0},
+      {name:'Spreads',      signal:'BUY',  conf:62, weight:5.5},
+      {name:'Satellite',    signal:'HOLD', conf:50, weight:4.5},
+      {name:'Solar demand', signal:'BUY',  conf:76, weight:6.0},
+    ],
+    cot: [{label:'Commercials',val:72,color:'teal'},{label:'Large speculators',val:65,color:'amber'},{label:'Small speculators',val:38,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+2.1%',contract:'SIU25',daysToRoll:24},
+    vol: {ivRank:'34th %ile',realVol:'18.2%',regime:'Medium',adx:'Moderate (ADX 28)',mktRegime:'Ranging bull',corr:'Gold +0.88'},
+    regimeLabel:'Ranging bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (34th %ile)',c:''},{k:'Gold/Silver ratio',v:'85x — cheap',c:'teal'},{k:'Industrial demand',v:'Strong',c:'teal'},{k:'Solar buildout',v:'Accelerating',c:'teal'},{k:'Regime prob.',v:'68%',c:''}],
+    inventoryTitle:'Storage & flows',
+    inventory: [{k:'COMEX silver',v:'290M oz',c:''},{k:'SLV holdings',v:'+42M oz 7d',c:'teal'},{k:'Solar industry',v:'Record demand',c:'teal'},{k:'Mining output',v:'+2% YoY',c:''},{k:'Scrap recovery',v:'Declining',c:'teal'}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'EV battery demand',v:'Rising',c:'teal'},{k:'Industrial orders',v:'+8% QoQ',c:'teal'},{k:'News sentiment',v:'+0.44',c:'teal'},{k:'Gold correlation',v:'+0.88',c:''},{k:'DXY impact',v:'Moderate',c:''},{k:'Speculator positioning',v:'65th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">SILVER BUY — 71% CONFIDENCE</span><br><br>Silver benefiting from dual tailwinds: monetary demand tracking gold and industrial demand driven by solar panel and EV battery expansion. Gold/silver ratio at 85x suggests silver is historically cheap relative to gold.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Industrial slowdown could weigh on demand. Higher volatility than gold requires wider stops.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.2%. Target +3.8%. R/R 1:1.7.',
+  },
+  'Platinum (PL)': {
+    agents: [
+      {name:'Technical',    signal:'BUY',  conf:72, weight:14.0},
+      {name:'COT',          signal:'HOLD', conf:55, weight:10.0},
+      {name:'Automotive demand',signal:'BUY',conf:78,weight:14.0},
+      {name:'South Africa supply',signal:'BUY',conf:70,weight:11.0},
+      {name:'Hydrogen economy',signal:'BUY',conf:74,weight:12.0},
+      {name:'ETF flows',    signal:'HOLD', conf:52, weight:7.0},
+      {name:'Macro',        signal:'BUY',  conf:65, weight:9.0},
+      {name:'Seasonality',  signal:'SELL', conf:58, weight:6.0},
+      {name:'Mining supply',signal:'BUY',  conf:68, weight:8.0},
+      {name:'Spreads',      signal:'HOLD', conf:50, weight:5.0},
+      {name:'Palladium sub',signal:'BUY',  conf:71, weight:4.0},
+      {name:'Jewelry demand',signal:'HOLD',conf:55, weight:0.0},
+    ],
+    cot: [{label:'Commercials',val:61,color:'teal'},{label:'Large speculators',val:44,color:'amber'},{label:'Small speculators',val:29,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-0.8%',contract:'PLV25',daysToRoll:32},
+    vol: {ivRank:'41st %ile',realVol:'16.8%',regime:'Medium',adx:'Weak (ADX 22)',mktRegime:'Ranging',corr:'Palladium +0.72'},
+    regimeLabel:'Ranging', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium (41st %ile)',c:''},{k:'Curve',v:'Contango',c:'amber'},{k:'Auto demand',v:'Recovering',c:'teal'},{k:'SA supply risk',v:'Elevated',c:'teal'},{k:'Regime prob.',v:'58%',c:''}],
+    inventoryTitle:'Supply & demand',
+    inventory: [{k:'WPIC surplus/deficit',v:'-185koz deficit',c:'teal'},{k:'Auto catalyst demand',v:'+4% YoY',c:'teal'},{k:'Hydrogen fuel cells',v:'Growing',c:'teal'},{k:'SA mining output',v:'-3% YoY',c:'teal'},{k:'Recycling supply',v:'Flat',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Palladium substitution',v:'Accelerating',c:'teal'},{k:'SA power outages',v:'Moderate risk',c:'amber'},{k:'Hydrogen policy',v:'Supportive',c:'teal'},{k:'Auto production',v:'Recovering',c:'teal'},{k:'News sentiment',v:'+0.38',c:'teal'},{k:'Spec positioning',v:'44th %ile',c:''}],
+    llm:'<span class="analysis-label">PLATINUM BUY — 65% CONFIDENCE</span><br><br>Platinum supply deficit of 185koz expected this year driven by South African mining disruptions and rising automotive catalyst demand as manufacturers substitute away from expensive palladium.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Contango curve structure creates negative roll yield. Ranging market conditions reduce trending confidence.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.0%. Target +3.2%. R/R 1:1.6.',
+  },
+  'Palladium (PA)': {
+    agents: [
+      {name:'Technical',    signal:'HOLD', conf:55, weight:14.0},
+      {name:'COT',          signal:'SELL', conf:62, weight:10.0},
+      {name:'Auto demand',  signal:'SELL', conf:71, weight:13.0},
+      {name:'Pt substitution',signal:'SELL',conf:74,weight:12.0},
+      {name:'EV transition',signal:'SELL', conf:68, weight:11.0},
+      {name:'Russia supply',signal:'HOLD', conf:58, weight:9.0},
+      {name:'Macro',        signal:'HOLD', conf:52, weight:8.0},
+      {name:'Seasonality',  signal:'SELL', conf:60, weight:6.0},
+      {name:'ETF flows',    signal:'SELL', conf:65, weight:7.0},
+      {name:'Spreads',      signal:'HOLD', conf:50, weight:5.0},
+      {name:'Options flow', signal:'SELL', conf:63, weight:5.0},
+      {name:'Recycling',    signal:'SELL', conf:58, weight:0.0},
+    ],
+    cot: [{label:'Commercials',val:38,color:'teal'},{label:'Large speculators',val:28,color:'amber'},{label:'Small speculators',val:20,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.4%',contract:'PAU25',daysToRoll:28},
+    vol: {ivRank:'52nd %ile',realVol:'22.4%',regime:'Medium-High',adx:'Weak (ADX 18)',mktRegime:'Downtrend',corr:'Platinum +0.72'},
+    regimeLabel:'Downtrend', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium-High',c:'amber'},{k:'Curve',v:'Contango',c:'amber'},{k:'EV displacement',v:'Accelerating',c:'red'},{k:'Pt substitution',v:'Ongoing',c:'red'},{k:'Regime prob.',v:'62%',c:''}],
+    inventoryTitle:'Supply & demand',
+    inventory: [{k:'Russian supply',v:'Stable',c:''},{k:'Auto catalyst share',v:'Declining',c:'red'},{k:'EV market share',v:'+28% YoY',c:''},{k:'Recycled supply',v:'Increasing',c:''},{k:'ETF outflows',v:'-18M oz 30d',c:'red'}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'EV adoption rate',v:'Accelerating',c:''},{k:'Pt substitution',v:'Active',c:''},{k:'Russia sanctions',v:'Stable risk',c:''},{k:'Auto production',v:'Flat',c:''},{k:'News sentiment',v:'-0.28',c:'red'},{k:'Spec positioning',v:'28th %ile',c:''}],
+    llm:'<span class="analysis-label">PALLADIUM SELL — 65% CONFIDENCE</span><br><br>Structural headwinds from EV transition reducing gasoline catalytic converter demand. Platinum substitution by automotive manufacturers accelerating. COT data shows commercials at 28th percentile — historically weak positioning.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Russian supply disruption could cause short squeeze. High volatility warrants tight position sizing.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Short at market. Stop loss +2.8%. Target −4.5%. R/R 1:1.6.',
+  },
+  'Copper (HG)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:74, weight:13.0},
+      {name:'COT',         signal:'BUY',  conf:68, weight:10.5},
+      {name:'China demand',signal:'BUY',  conf:78, weight:14.0},
+      {name:'EV demand',   signal:'BUY',  conf:82, weight:13.0},
+      {name:'LME inventory',signal:'BUY', conf:72, weight:11.0},
+      {name:'Mining supply',signal:'HOLD',conf:58, weight:9.0},
+      {name:'Macro',       signal:'BUY',  conf:66, weight:9.0},
+      {name:'Seasonality', signal:'BUY',  conf:64, weight:7.0},
+      {name:'Options flow',signal:'BUY',  conf:70, weight:6.0},
+      {name:'Spreads',     signal:'BUY',  conf:65, weight:5.0},
+      {name:'Satellite',   signal:'BUY',  conf:62, weight:4.5},
+      {name:'Vessel',      signal:'HOLD', conf:55, weight:3.0},
+    ],
+    cot: [{label:'Commercials',val:78,color:'teal'},{label:'Large speculators',val:68,color:'amber'},{label:'Small speculators',val:42,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+1.8%',contract:'HGU25',daysToRoll:22},
+    vol: {ivRank:'28th %ile',realVol:'14.2%',regime:'Low',adx:'Strong (ADX 34)',mktRegime:'Trending bull',corr:'China PMI +0.82'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low (28th %ile)',c:''},{k:'Curve',v:'Backwardation',c:'teal'},{k:'China PMI',v:'Expanding',c:'teal'},{k:'LME stocks',v:'Declining',c:'teal'},{k:'Regime prob.',v:'71%',c:''}],
+    inventoryTitle:'LME & warehouse stocks',
+    inventory: [{k:'LME copper stocks',v:'142kt — low',c:'teal'},{k:'SHFE stocks',v:'Declining',c:'teal'},{k:'China imports',v:'+12% YoY',c:'teal'},{k:'Mine supply',v:'Flat',c:''},{k:'Treatment charges',v:'Near zero',c:'teal'}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'China construction',v:'Stabilizing',c:'teal'},{k:'Grid investment',v:'Record spend',c:'teal'},{k:'EV charging infra',v:'Expanding',c:'teal'},{k:'Scrap availability',v:'Tight',c:'teal'},{k:'News sentiment',v:'+0.54',c:'teal'},{k:'Spec positioning',v:'68th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">COPPER BUY — 74% CONFIDENCE</span><br><br>Dr. Copper confirming global growth. LME inventory at multi-year lows while China infrastructure and EV charging buildout drives structural demand. Treatment charges near zero signal tight mine-to-smelter pipeline.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> China property sector weakness could soften construction demand. Monitor SHFE inventory builds.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −1.8%. Target +3.0%. R/R 1:1.7.',
+  },
+  // ── ENERGY ──
+  'Crude oil (CL)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:76, weight:13.0},
+      {name:'EIA inventory',signal:'BUY', conf:74, weight:12.5},
+      {name:'OPEC+ policy',signal:'BUY',  conf:80, weight:14.0},
+      {name:'Vessel/tanker',signal:'BUY', conf:72, weight:11.0},
+      {name:'Seasonality', signal:'BUY',  conf:68, weight:9.0},
+      {name:'COT',         signal:'BUY',  conf:70, weight:10.0},
+      {name:'Macro',       signal:'HOLD', conf:58, weight:8.0},
+      {name:'Geopolitical',signal:'BUY',  conf:65, weight:9.0},
+      {name:'Refinery runs',signal:'BUY', conf:71, weight:7.0},
+      {name:'Options flow',signal:'BUY',  conf:67, weight:5.0},
+      {name:'Floating storage',signal:'BUY',conf:69,weight:4.5},
+      {name:'Demand growth',signal:'HOLD',conf:55,weight:3.0},
+    ],
+    cot: [{label:'Commercials',val:74,color:'teal'},{label:'Large speculators',val:68,color:'amber'},{label:'Small speculators',val:41,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+4.1%',contract:'CLN25',daysToRoll:15},
+    vol: {ivRank:'31st %ile',realVol:'24.6%',regime:'Medium',adx:'Strong (ADX 36)',mktRegime:'Trending bull',corr:'DXY −0.62'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (31st %ile)',c:''},{k:'Curve',v:'Backwardation',c:'teal'},{k:'OPEC+ compliance',v:'High',c:'teal'},{k:'Demand growth',v:'Stable',c:'teal'},{k:'Regime prob.',v:'72%',c:''}],
+    inventoryTitle:'EIA inventory status',
+    inventory: [{k:'Crude draw/build',v:'-3.2M bbl',c:'teal'},{k:'vs estimate',v:'-1.5M expected',c:'teal'},{k:'vs 5yr avg',v:'+8M above',c:''},{k:'Cushing stocks',v:'41.2M bbl',c:''},{k:'Strategic reserve',v:'Stable',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Tanker flows to Asia',v:'+8% MoM',c:'teal'},{k:'Floating storage',v:'Declining',c:'teal'},{k:'OPEC+ meeting',v:'Apr 2 — hold cuts',c:'teal'},{k:'US rig count',v:'-12 WoW',c:'teal'},{k:'News sentiment',v:'+0.48',c:'teal'},{k:'Sanctions (Russia)',v:'Active',c:'amber'}],
+    llm:'<span class="analysis-label">CRUDE OIL BUY — 74% CONFIDENCE</span><br><br>OPEC+ maintaining production discipline with high compliance. EIA showed surprise draw of 3.2M barrels vs 1.5M estimate. Futures curve in steep backwardation (+4.1% annualized roll yield) confirms physical market tightness.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Macro slowdown could reduce demand expectations. US shale response if prices sustain above $75.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.2%. Target +3.8%. R/R 1:1.7.',
+  },
+  'Brent (BZ)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:75, weight:13.0},
+      {name:'EIA inventory',signal:'BUY', conf:72, weight:12.0},
+      {name:'OPEC+ policy',signal:'BUY',  conf:80, weight:14.0},
+      {name:'Vessel/tanker',signal:'BUY', conf:74, weight:11.5},
+      {name:'Seasonality', signal:'BUY',  conf:67, weight:9.0},
+      {name:'COT',         signal:'BUY',  conf:69, weight:10.0},
+      {name:'Geopolitical',signal:'BUY',  conf:70, weight:10.0},
+      {name:'Macro',       signal:'HOLD', conf:56, weight:7.0},
+      {name:'Refinery runs',signal:'BUY', conf:70, weight:7.0},
+      {name:'Options flow',signal:'BUY',  conf:66, weight:5.0},
+      {name:'Floating storage',signal:'BUY',conf:68,weight:4.5},
+      {name:'Demand growth',signal:'HOLD',conf:54,weight:3.0},
+    ],
+    cot: [{label:'Commercials',val:76,color:'teal'},{label:'Large speculators',val:70,color:'amber'},{label:'Small speculators',val:43,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+3.8%',contract:'BZN25',daysToRoll:16},
+    vol: {ivRank:'29th %ile',realVol:'23.8%',regime:'Medium',adx:'Strong (ADX 35)',mktRegime:'Trending bull',corr:'WTI +0.97'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (29th %ile)',c:''},{k:'Brent-WTI spread',v:'+$3.26',c:'teal'},{k:'OPEC+ compliance',v:'High',c:'teal'},{k:'Asian demand',v:'Strong',c:'teal'},{k:'Regime prob.',v:'71%',c:''}],
+    inventoryTitle:'North Sea & global stocks',
+    inventory: [{k:'North Sea output',v:'Declining',c:'teal'},{k:'Dated Brent premium',v:'+$0.84',c:'teal'},{k:'Asian refinery demand',v:'Strong',c:'teal'},{k:'OECD stocks',v:'Below avg',c:'teal'},{k:'Russia Urals spread',v:'-$8 discount',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Middle East risk',v:'Elevated',c:'amber'},{k:'Suez Canal flows',v:'Disrupted',c:'amber'},{k:'UK North Sea',v:'Declining',c:'teal'},{k:'Asia refinery runs',v:'High',c:'teal'},{k:'News sentiment',v:'+0.51',c:'teal'},{k:'Sanctions impact',v:'Active (Russia)',c:'amber'}],
+    llm:'<span class="analysis-label">BRENT BUY — 73% CONFIDENCE</span><br><br>Brent premium to WTI widening on Middle East supply risk and Suez Canal disruptions rerouting tanker flows. North Sea production declining structurally. Asian refinery demand running strong into spring maintenance season.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Ceasefire developments in Middle East could rapidly compress geopolitical risk premium.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.0%. Target +3.5%. R/R 1:1.75.',
+  },
+  'Natural gas (NG)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:70, weight:13.0},
+      {name:'EIA storage', signal:'BUY',  conf:75, weight:14.0},
+      {name:'Weather',     signal:'BUY',  conf:82, weight:16.0},
+      {name:'LNG exports', signal:'BUY',  conf:74, weight:12.0},
+      {name:'Seasonality', signal:'BUY',  conf:72, weight:11.0},
+      {name:'Power demand',signal:'BUY',  conf:68, weight:10.0},
+      {name:'COT',         signal:'HOLD', conf:55, weight:8.0},
+      {name:'Production',  signal:'SELL', conf:60, weight:7.0},
+      {name:'Macro',       signal:'HOLD', conf:52, weight:5.0},
+      {name:'Options flow',signal:'BUY',  conf:64, weight:4.0},
+      {name:'Pipeline flows',signal:'BUY',conf:66,weight:3.0},
+      {name:'Spreads',     signal:'HOLD', conf:50, weight:0.0},
+    ],
+    cot: [{label:'Commercials',val:68,color:'teal'},{label:'Large speculators',val:55,color:'amber'},{label:'Small speculators',val:32,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-2.1%',contract:'NGN25',daysToRoll:12},
+    vol: {ivRank:'55th %ile',realVol:'42.8%',regime:'High',adx:'Strong (ADX 40)',mktRegime:'Trending bull',corr:'Weather −0.78'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'High (55th %ile)',c:'amber'},{k:'Storage deficit',v:'-18% vs avg',c:'teal'},{k:'Weather',v:'Cold snap incoming',c:'teal'},{k:'LNG exports',v:'Record',c:'teal'},{k:'Regime prob.',v:'68%',c:''}],
+    inventoryTitle:'EIA storage report',
+    inventory: [{k:'Storage level',v:'1,832 bcf',c:''},{k:'vs 5yr avg',v:'-18%',c:'teal'},{k:'vs last year',v:'-12%',c:'teal'},{k:'Weekly draw/inject',v:'-82 bcf draw',c:'teal'},{k:'LNG export capacity',v:'14.8 bcfd',c:'teal'}],
+    intelTitle:'Weather & pipeline',
+    intel: [{k:'6-10 day forecast',v:'Below normal temps',c:'teal'},{k:'Heating degree days',v:'+22% vs normal',c:'teal'},{k:'LNG export utilization',v:'94%',c:'teal'},{k:'Pipeline exports Mexico',v:'+6% YoY',c:'teal'},{k:'Production growth',v:'+2.1 bcfd YoY',c:''},{k:'News sentiment',v:'+0.58',c:'teal'}],
+    llm:'<span class="analysis-label">NATURAL GAS BUY — 70% CONFIDENCE</span><br><br>Storage deficit of 18% below 5-year average entering shoulder season. Cold weather pattern extending heating demand. LNG export capacity running at 94% utilization, limiting domestic supply relief. Weather model divergence is the primary uncertainty.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Weather forecast shift to warmer-than-normal would rapidly reverse the thesis. Extreme volatility requires smaller position sizing.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −4.0%. Target +7.5%. R/R 1:1.9.',
+  },
+  'Gasoline (RB)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:72, weight:13.0},
+      {name:'EIA inventory',signal:'BUY', conf:70, weight:12.0},
+      {name:'Seasonality', signal:'BUY',  conf:84, weight:16.0},
+      {name:'Refinery runs',signal:'BUY', conf:74, weight:13.0},
+      {name:'Crack spread', signal:'BUY', conf:76, weight:12.0},
+      {name:'Crude input',  signal:'BUY', conf:68, weight:9.0},
+      {name:'COT',          signal:'BUY', conf:65, weight:8.0},
+      {name:'Demand survey',signal:'BUY', conf:62, weight:7.0},
+      {name:'Macro',        signal:'HOLD',conf:55, weight:5.0},
+      {name:'Options flow', signal:'BUY', conf:66, weight:5.0},
+      {name:'Spreads',      signal:'HOLD',conf:52, weight:3.0},
+      {name:'Ethanol blend',signal:'HOLD',conf:50, weight:0.0},
+    ],
+    cot: [{label:'Commercials',val:72,color:'teal'},{label:'Large speculators',val:64,color:'amber'},{label:'Small speculators',val:38,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+5.2%',contract:'RBM25',daysToRoll:8},
+    vol: {ivRank:'26th %ile',realVol:'28.4%',regime:'Medium',adx:'Strong (ADX 38)',mktRegime:'Trending bull',corr:'Crude +0.94'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (26th %ile)',c:''},{k:'Driving season',v:'Approaching',c:'teal'},{k:'Crack spread',v:'$28.40/bbl',c:'teal'},{k:'Refinery utilization',v:'91%',c:'teal'},{k:'Regime prob.',v:'74%',c:''}],
+    inventoryTitle:'EIA gasoline stocks',
+    inventory: [{k:'Gasoline stocks',v:'228M bbl',c:''},{k:'vs 5yr avg',v:'-8M below',c:'teal'},{k:'Implied demand',v:'8.9M bpd',c:'teal'},{k:'Refinery output',v:'10.1M bpd',c:''},{k:'RBOB crack spread',v:'$28.40',c:'teal'}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Driving season start',v:'May — 6 weeks out',c:'teal'},{k:'AAA travel survey',v:'+4% YoY plans',c:'teal'},{k:'Refinery turnarounds',v:'2 major offline',c:'teal'},{k:'Ethanol RIN prices',v:'Rising',c:''},{k:'News sentiment',v:'+0.44',c:'teal'},{k:'Consumer demand',v:'Resilient',c:'teal'}],
+    llm:'<span class="analysis-label">GASOLINE BUY — 73% CONFIDENCE</span><br><br>Seasonal demand surge into US summer driving season historically strongest catalyst for RBOB. Gasoline stocks 8M barrels below 5-year average. Crack spreads at $28.40/bbl with 2 major refineries in turnaround constraining supply.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Consumer spending slowdown or demand destruction at high price levels. RIN compliance costs compressing refinery margins.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.4%. Target +4.2%. R/R 1:1.75.',
+  },
+  'Heating oil (HO)': {
+    agents: [
+      {name:'Technical',   signal:'HOLD', conf:58, weight:13.0},
+      {name:'EIA inventory',signal:'BUY', conf:68, weight:12.0},
+      {name:'Weather',     signal:'SELL', conf:65, weight:14.0},
+      {name:'Seasonality', signal:'SELL', conf:72, weight:13.0},
+      {name:'Crack spread', signal:'BUY', conf:64, weight:10.0},
+      {name:'Crude input',  signal:'BUY', conf:62, weight:9.0},
+      {name:'COT',          signal:'HOLD',conf:52, weight:8.0},
+      {name:'Demand survey',signal:'SELL',conf:60, weight:7.0},
+      {name:'Macro',        signal:'HOLD',conf:52, weight:5.0},
+      {name:'Options flow', signal:'HOLD',conf:50, weight:5.0},
+      {name:'Spreads',      signal:'HOLD',conf:48, weight:3.0},
+      {name:'Diesel demand',signal:'BUY', conf:64, weight:1.0},
+    ],
+    cot: [{label:'Commercials',val:52,color:'teal'},{label:'Large speculators',val:40,color:'amber'},{label:'Small speculators',val:28,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.2%',contract:'HOM25',daysToRoll:10},
+    vol: {ivRank:'38th %ile',realVol:'26.2%',regime:'Medium',adx:'Weak (ADX 20)',mktRegime:'Ranging',corr:'Crude +0.92'},
+    regimeLabel:'Ranging', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium (38th %ile)',c:''},{k:'Heating season',v:'Ending',c:'amber'},{k:'Diesel demand',v:'Stable',c:''},{k:'Distillate stocks',v:'Near avg',c:''},{k:'Regime prob.',v:'54%',c:''}],
+    inventoryTitle:'EIA distillate stocks',
+    inventory: [{k:'Distillate stocks',v:'118M bbl',c:''},{k:'vs 5yr avg',v:'+2M above',c:''},{k:'Heating oil demand',v:'Declining (spring)',c:''},{k:'Diesel demand',v:'Steady',c:'teal'},{k:'HO crack spread',v:'$22.10/bbl',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Heating season',v:'Winding down',c:''},{k:'Diesel trucking demand',v:'Stable',c:''},{k:'NE US inventory',v:'Normal',c:''},{k:'Agricultural diesel',v:'Spring planting soon',c:'teal'},{k:'News sentiment',v:'+0.12',c:''},{k:'Export demand',v:'Modest',c:''}],
+    llm:'<span class="analysis-label">HEATING OIL HOLD — 55% CONFIDENCE</span><br><br>Heating season winding down removes primary demand driver. Distillate stocks near 5-year average. Seasonal headwinds outweigh crack spread support near term. Watch for spring agricultural diesel demand to provide floor.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Late cold snap could provide short-term boost. Transitioning to diesel/export demand narrative.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Neutral. Await clearer signal from distillate stock draws.',
+  },
+  // ── GRAINS ──
+  'Corn (ZC)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:68, weight:12.0},
+      {name:'USDA report', signal:'BUY',  conf:74, weight:14.0},
+      {name:'Weather',     signal:'BUY',  conf:72, weight:13.0},
+      {name:'Seasonality', signal:'BUY',  conf:70, weight:11.0},
+      {name:'Export demand',signal:'BUY', conf:75, weight:13.0},
+      {name:'Ethanol demand',signal:'BUY',conf:68, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:65, weight:9.0},
+      {name:'Crop condition',signal:'BUY',conf:62, weight:8.0},
+      {name:'South America',signal:'SELL',conf:60, weight:7.0},
+      {name:'Options flow',signal:'BUY',  conf:64, weight:5.0},
+      {name:'Spreads',     signal:'HOLD', conf:52, weight:4.0},
+      {name:'Currency',    signal:'BUY',  conf:66, weight:3.0},
+    ],
+    cot: [{label:'Managed money',val:62,color:'teal'},{label:'Commercial hedgers',val:45,color:'amber'},{label:'Small speculators',val:30,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.4%',contract:'ZCN25',daysToRoll:20},
+    vol: {ivRank:'32nd %ile',realVol:'18.6%',regime:'Medium',adx:'Moderate (ADX 26)',mktRegime:'Trending bull',corr:'USDA S&D −0.72'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (32nd %ile)',c:''},{k:'US planted acres',v:'Below estimate',c:'teal'},{k:'Export sales',v:'Strong',c:'teal'},{k:'Ethanol margins',v:'Positive',c:'teal'},{k:'Regime prob.',v:'66%',c:''}],
+    inventoryTitle:'USDA supply & demand',
+    inventory: [{k:'US ending stocks',v:'1.42B bu',c:'teal'},{k:'vs USDA est.',v:'-120M bu surprise',c:'teal'},{k:'Export sales pace',v:'+18% vs avg',c:'teal'},{k:'Ethanol grind',v:'104M bu/wk',c:'teal'},{k:'Brazil crop',v:'Second crop at risk',c:'teal'}],
+    intelTitle:'Crop intelligence',
+    intel: [{k:'Planting progress',v:'7 days behind avg',c:'teal'},{k:'Soil moisture',v:'Dry in corn belt',c:'teal'},{k:'Brazil 2nd crop',v:'La Niña risk',c:'teal'},{k:'China import demand',v:'Recovering',c:'teal'},{k:'Satellite crop index',v:'Stressed',c:'teal'},{k:'News sentiment',v:'+0.42',c:'teal'}],
+    llm:'<span class="analysis-label">CORN BUY — 69% CONFIDENCE</span><br><br>US planting running 7 days behind average with dry soil moisture conditions in key Iowa/Illinois growing areas. USDA ending stocks came in 120M bushels below analyst estimates. Export sales running 18% above 5-year average pace with strong Chinese buying.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> South American second crop harvest pressure incoming March–April. Contango curve creates negative carry headwind.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.8%. Target +5.2%. R/R 1:1.9.',
+  },
+  'Soybeans (ZS)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:70, weight:12.0},
+      {name:'USDA report', signal:'BUY',  conf:76, weight:14.0},
+      {name:'China demand',signal:'BUY',  conf:80, weight:15.0},
+      {name:'Crush demand',signal:'BUY',  conf:72, weight:12.0},
+      {name:'Weather',     signal:'BUY',  conf:68, weight:11.0},
+      {name:'Brazil crop', signal:'SELL', conf:64, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:66, weight:9.0},
+      {name:'Seasonality', signal:'SELL', conf:60, weight:7.0},
+      {name:'Export pace', signal:'BUY',  conf:74, weight:8.0},
+      {name:'Options flow',signal:'BUY',  conf:65, weight:5.0},
+      {name:'Currency BRL',signal:'HOLD', conf:54, weight:4.0},
+      {name:'Spreads',     signal:'BUY',  conf:62, weight:3.0},
+    ],
+    cot: [{label:'Managed money',val:66,color:'teal'},{label:'Commercial hedgers',val:48,color:'amber'},{label:'Small speculators',val:32,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.8%',contract:'ZSN25',daysToRoll:20},
+    vol: {ivRank:'28th %ile',realVol:'16.4%',regime:'Low-Medium',adx:'Moderate (ADX 28)',mktRegime:'Trending bull',corr:'Brazil real −0.65'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low-Medium (28th %ile)',c:''},{k:'US planted acres',v:'Below est.',c:'teal'},{k:'China bookings',v:'Strong',c:'teal'},{k:'Crush margins',v:'$1.82/bu',c:'teal'},{k:'Regime prob.',v:'68%',c:''}],
+    inventoryTitle:'USDA supply & demand',
+    inventory: [{k:'US ending stocks',v:'280M bu',c:'teal'},{k:'vs USDA est.',v:'-45M bu',c:'teal'},{k:'China import pace',v:'+14% YoY',c:'teal'},{k:'Crush utilization',v:'High',c:'teal'},{k:'Brazil harvest',v:'75% complete',c:''}],
+    intelTitle:'Crop intelligence',
+    intel: [{k:'China ASF recovery',v:'Hog herd rebuilding',c:'teal'},{k:'Brazil logistics',v:'Port delays',c:'teal'},{k:'US acre competition',v:'vs corn — tight',c:'amber'},{k:'Meal/oil ratio',v:'Meal premium',c:'teal'},{k:'Satellite pod count',v:'Normal',c:''},{k:'News sentiment',v:'+0.38',c:'teal'}],
+    llm:'<span class="analysis-label">SOYBEANS BUY — 71% CONFIDENCE</span><br><br>Chinese hog herd rebuilding post-ASF driving record soybean meal demand. US ending stocks below estimates. Brazil logistics delays at Santos port providing US export window. Crush margins near $1.82/bu supporting domestic demand.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Brazilian harvest nearly complete — South American supply pressure to mount. Monitor BRL/USD for export competitiveness shifts.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.4%. Target +4.0%. R/R 1:1.7.',
+  },
+  'Wheat (ZW)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:66, weight:12.0},
+      {name:'USDA report', signal:'BUY',  conf:70, weight:13.0},
+      {name:'Geopolitical',signal:'BUY',  conf:78, weight:15.0},
+      {name:'Black Sea supply',signal:'HOLD',conf:58,weight:10.0},
+      {name:'Weather',     signal:'BUY',  conf:68, weight:12.0},
+      {name:'Export demand',signal:'BUY', conf:64, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:62, weight:9.0},
+      {name:'Crop condition',signal:'BUY',conf:60, weight:8.0},
+      {name:'Seasonality', signal:'SELL', conf:58, weight:6.0},
+      {name:'Options flow',signal:'HOLD', conf:52, weight:5.0},
+      {name:'Currency',    signal:'BUY',  conf:60, weight:3.0},
+      {name:'Spreads',     signal:'HOLD', conf:50, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:58,color:'teal'},{label:'Commercial hedgers',val:42,color:'amber'},{label:'Small speculators',val:28,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.6%',contract:'ZWN25',daysToRoll:22},
+    vol: {ivRank:'44th %ile',realVol:'24.2%',regime:'Medium',adx:'Moderate (ADX 24)',mktRegime:'Ranging bull',corr:'Black Sea supply −0.68'},
+    regimeLabel:'Ranging bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (44th %ile)',c:'amber'},{k:'Russia/Ukraine',v:'Supply risk elevated',c:'teal'},{k:'US winter wheat',v:'Poor condition',c:'teal'},{k:'Egypt imports',v:'Active buying',c:'teal'},{k:'Regime prob.',v:'62%',c:''}],
+    inventoryTitle:'USDA supply & demand',
+    inventory: [{k:'World ending stocks',v:'260M mt',c:''},{k:'vs USDA est.',v:'-8M mt below',c:'teal'},{k:'US HRW condition',v:'38% good/exc.',c:'teal'},{k:'Russia export pace',v:'Slowing',c:'teal'},{k:'Australia harvest',v:'Record crop',c:''}],
+    intelTitle:'Geopolitical & weather',
+    intel: [{k:'Black Sea corridor',v:'Ongoing risk',c:'amber'},{k:'Russia export tax',v:'Active — limits supply',c:'teal'},{k:'India export ban',v:'Still in effect',c:'teal'},{k:'Drought — Kansas',v:'Developing',c:'teal'},{k:'Egypt GASC tender',v:'Active buying',c:'teal'},{k:'News sentiment',v:'+0.35',c:'teal'}],
+    llm:'<span class="analysis-label">WHEAT BUY — 65% CONFIDENCE</span><br><br>Multiple bullish factors converging: US hard red winter wheat in poor condition (38% good/excellent), Black Sea supply disruptions, Russia export tax limiting global availability, and active Egyptian buying. World ending stocks below USDA estimates.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Australian record crop providing supply offset. Seasonality agent signals SELL as northern hemisphere harvest approaches.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −3.0%. Target +5.5%. R/R 1:1.8.',
+  },
+  'Soybean oil (ZL)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:70, weight:12.0},
+      {name:'Biofuel policy',signal:'BUY',conf:80, weight:15.0},
+      {name:'Crush margins',signal:'BUY', conf:74, weight:13.0},
+      {name:'Palm oil corr.',signal:'BUY',conf:68, weight:11.0},
+      {name:'USDA report', signal:'BUY',  conf:66, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:64, weight:9.0},
+      {name:'Seasonality', signal:'HOLD', conf:55, weight:7.0},
+      {name:'Export demand',signal:'BUY', conf:62, weight:8.0},
+      {name:'Spreads',     signal:'BUY',  conf:60, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:64, weight:5.0},
+      {name:'Canola corr.', signal:'BUY', conf:62, weight:4.0},
+      {name:'Weather',     signal:'HOLD', conf:52, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:70,color:'teal'},{label:'Commercial hedgers',val:52,color:'amber'},{label:'Small speculators',val:36,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.2%',contract:'ZLN25',daysToRoll:20},
+    vol: {ivRank:'24th %ile',realVol:'20.4%',regime:'Low-Medium',adx:'Strong (ADX 32)',mktRegime:'Trending bull',corr:'Palm oil +0.78'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low-Medium',c:''},{k:'Biofuel blending',v:'Mandates expanding',c:'teal'},{k:'Palm oil premium',v:'Soyoil discount',c:'teal'},{k:'Crush margins',v:'Strong',c:'teal'},{k:'Regime prob.',v:'70%',c:''}],
+    inventoryTitle:'USDA oil supply',
+    inventory: [{k:'US soyoil stocks',v:'1.82B lbs',c:'teal'},{k:'vs USDA est.',v:'-240M lbs',c:'teal'},{k:'Biofuel demand',v:'Record',c:'teal'},{k:'Export sales',v:'+22% YoY',c:'teal'},{k:'Palm oil spread',v:'Soyoil cheaper',c:'teal'}],
+    intelTitle:'Policy & feeds',
+    intel: [{k:'EPA RVO ruling',v:'Higher blends likely',c:'teal'},{k:'Renewable diesel',v:'Capacity +40%',c:'teal'},{k:'SAF demand',v:'Rapid growth',c:'teal'},{k:'Indonesia palm export',v:'Improving',c:''},{k:'News sentiment',v:'+0.48',c:'teal'},{k:'Spec positioning',v:'70th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">SOYBEAN OIL BUY — 72% CONFIDENCE</span><br><br>EPA renewable volume obligation likely to increase biodiesel and renewable diesel blending mandates. Sustainable aviation fuel demand growing rapidly. Soybean oil at discount to palm oil making it preferred feedstock. US stocks below USDA estimate by 240M lbs.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Indonesian palm export normalization could pressure soyoil if spread narrows significantly.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.2%. Target +4.0%. R/R 1:1.8.',
+  },
+  'Soybean meal (ZM)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:68, weight:12.0},
+      {name:'USDA report', signal:'BUY',  conf:72, weight:13.0},
+      {name:'China hog demand',signal:'BUY',conf:78,weight:15.0},
+      {name:'Crush margins',signal:'BUY', conf:74, weight:13.0},
+      {name:'Aquaculture', signal:'BUY',  conf:66, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:64, weight:9.0},
+      {name:'Seasonality', signal:'HOLD', conf:54, weight:7.0},
+      {name:'Export pace', signal:'BUY',  conf:70, weight:8.0},
+      {name:'Spreads',     signal:'BUY',  conf:62, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:65, weight:5.0},
+      {name:'Argentina',   signal:'HOLD', conf:58, weight:2.0},
+      {name:'Weather',     signal:'HOLD', conf:52, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:68,color:'teal'},{label:'Commercial hedgers',val:50,color:'amber'},{label:'Small speculators',val:33,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.0%',contract:'ZMN25',daysToRoll:20},
+    vol: {ivRank:'26th %ile',realVol:'18.8%',regime:'Low-Medium',adx:'Moderate (ADX 28)',mktRegime:'Trending bull',corr:'China hog prices +0.72'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low-Medium',c:''},{k:'China herd recovery',v:'Rebuilding',c:'teal'},{k:'Crush utilization',v:'High',c:'teal'},{k:'Protein meal spread',v:'Meal premium',c:'teal'},{k:'Regime prob.',v:'67%',c:''}],
+    inventoryTitle:'USDA meal supply',
+    inventory: [{k:'US meal stocks',v:'414kt',c:'teal'},{k:'vs USDA est.',v:'-38kt below',c:'teal'},{k:'China import pace',v:'+18% YoY',c:'teal'},{k:'EU poultry demand',v:'Stable',c:''},{k:'Argentina crush',v:'Normalizing',c:''}],
+    intelTitle:'Protein demand feeds',
+    intel: [{k:'China ASF status',v:'Controlled',c:'teal'},{k:'Hog inventory China',v:'Rebuilding rapidly',c:'teal'},{k:'Global poultry',v:'Flock recovery',c:'teal'},{k:'Aquaculture growth',v:'+6% YoY',c:'teal'},{k:'News sentiment',v:'+0.40',c:'teal'},{k:'Spec positioning',v:'68th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">SOYBEAN MEAL BUY — 69% CONFIDENCE</span><br><br>Chinese hog herd rapidly rebuilding after ASF devastation, driving record soybean meal import demand. Global poultry and aquaculture feed demand growing. US meal stocks below USDA estimates. Crush utilization running high supporting futures basis.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Argentine processing sector resuming could increase global meal availability significantly.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.4%. Target +4.2%. R/R 1:1.75.',
+  },
+  'Oats (ZO)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:64, weight:14.0},
+      {name:'USDA report', signal:'BUY',  conf:66, weight:13.0},
+      {name:'Weather',     signal:'BUY',  conf:68, weight:14.0},
+      {name:'Milling demand',signal:'BUY',conf:62, weight:12.0},
+      {name:'COT',         signal:'HOLD', conf:54, weight:10.0},
+      {name:'Canada crop', signal:'HOLD', conf:58, weight:10.0},
+      {name:'Seasonality', signal:'BUY',  conf:60, weight:9.0},
+      {name:'Feed demand', signal:'HOLD', conf:52, weight:8.0},
+      {name:'Options flow',signal:'HOLD', conf:50, weight:5.0},
+      {name:'Spreads',     signal:'BUY',  conf:58, weight:5.0},
+      {name:'Export demand',signal:'BUY', conf:60, weight:4.0},
+      {name:'Health trends',signal:'BUY', conf:66, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:55,color:'teal'},{label:'Commercial hedgers',val:40,color:'amber'},{label:'Small speculators',val:25,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-0.8%',contract:'ZON25',daysToRoll:22},
+    vol: {ivRank:'36th %ile',realVol:'22.4%',regime:'Medium',adx:'Weak (ADX 20)',mktRegime:'Ranging',corr:'Corn +0.62'},
+    regimeLabel:'Ranging', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium (36th %ile)',c:''},{k:'Canadian production',v:'Below avg',c:'teal'},{k:'Milling demand',v:'Steady',c:''},{k:'Health food trend',v:'Growing',c:'teal'},{k:'Regime prob.',v:'58%',c:''}],
+    inventoryTitle:'USDA supply',
+    inventory: [{k:'US ending stocks',v:'58M bu',c:'teal'},{k:'Canada production',v:'-12% YoY',c:'teal'},{k:'Milling extraction',v:'Stable',c:''},{k:'Feed substitution',v:'Limited',c:''},{k:'Export bookings',v:'Modest',c:''}],
+    intelTitle:'Crop intelligence',
+    intel: [{k:'Prairie soil moisture',v:'Below normal',c:'teal'},{k:'Canada planting intent',v:'Slight reduction',c:'teal'},{k:'Quaker/oat bran demand',v:'Steady growth',c:'teal'},{k:'Beta-glucan demand',v:'Health sector rising',c:'teal'},{k:'News sentiment',v:'+0.22',c:'teal'},{k:'Spec positioning',v:'55th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">OATS BUY — 62% CONFIDENCE</span><br><br>Canadian oat production running 12% below average due to dry Prairie conditions. US ending stocks tight. Growing health food demand providing structural support. Less liquid market with wider bid-ask spreads requires careful execution.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Low liquidity amplifies moves — use limit orders. Feed demand substitution to corn could emerge if oat premium widens.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Scale in. Stop loss −3.5%. Target +6.0%. R/R 1:1.7.',
+  },
+  'Rice (ZR)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:66, weight:13.0},
+      {name:'USDA report', signal:'BUY',  conf:70, weight:13.0},
+      {name:'India export ban',signal:'BUY',conf:82,weight:16.0},
+      {name:'Weather/El Niño',signal:'BUY',conf:74,weight:14.0},
+      {name:'Asia demand', signal:'BUY',  conf:68, weight:11.0},
+      {name:'COT',         signal:'BUY',  conf:62, weight:9.0},
+      {name:'Thailand crop',signal:'HOLD',conf:56, weight:7.0},
+      {name:'Seasonality', signal:'HOLD', conf:52, weight:6.0},
+      {name:'Vietnam exports',signal:'BUY',conf:64,weight:5.0},
+      {name:'Options flow',signal:'HOLD', conf:50, weight:4.0},
+      {name:'Spreads',     signal:'BUY',  conf:58, weight:2.0},
+      {name:'Currency',    signal:'BUY',  conf:60, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:72,color:'teal'},{label:'Commercial hedgers',val:54,color:'amber'},{label:'Small speculators',val:36,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+1.4%',contract:'ZRN25',daysToRoll:18},
+    vol: {ivRank:'42nd %ile',realVol:'26.8%',regime:'Medium',adx:'Strong (ADX 36)',mktRegime:'Trending bull',corr:'El Niño +0.74'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (42nd %ile)',c:'amber'},{k:'India export ban',v:'Still active',c:'teal'},{k:'El Niño impact',v:'Dry in Asia',c:'teal'},{k:'Philippines imports',v:'Record pace',c:'teal'},{k:'Regime prob.',v:'70%',c:''}],
+    inventoryTitle:'Global rice supply',
+    inventory: [{k:'World ending stocks',v:'638M mt',c:''},{k:'vs USDA est.',v:'-14M mt',c:'teal'},{k:'India export volumes',v:'Restricted',c:'teal'},{k:'Thailand milled supply',v:'Below avg',c:'teal'},{k:'Philippines reserve',v:'Low',c:'teal'}],
+    intelTitle:'Policy & weather',
+    intel: [{k:'India export ban',v:'Non-basmati banned',c:'teal'},{k:'El Niño status',v:'Active — dry monsoon',c:'teal'},{k:'Philippines demand',v:'Emergency imports',c:'teal'},{k:'Thailand drought',v:'Secondary crop risk',c:'teal'},{k:'News sentiment',v:'+0.52',c:'teal'},{k:'Food security concern',v:'Elevated',c:'amber'}],
+    llm:'<span class="analysis-label">RICE BUY — 70% CONFIDENCE</span><br><br>India export ban on non-basmati rice removing 20% of global trade supply. El Niño creating dry conditions across key Asian producing regions. Philippines emergency imports depleting regional reserves. World ending stocks 14M mt below USDA estimate.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> India policy reversal would significantly increase supply. Monitor monsoon forecasts — normal rains would ease tightness.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −3.2%. Target +6.0%. R/R 1:1.9.',
+  },
+  // ── SOFTS ──
+  'Coffee (KC)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:78, weight:13.0},
+      {name:'Brazil crop', signal:'BUY',  conf:74, weight:14.0},
+      {name:'Weather',     signal:'BUY',  conf:80, weight:15.0},
+      {name:'Vietnam crop',signal:'SELL', conf:65, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:70, weight:11.0},
+      {name:'Currency BRL',signal:'BUY',  conf:66, weight:9.0},
+      {name:'Roaster demand',signal:'BUY',conf:68, weight:9.0},
+      {name:'ICO stocks',  signal:'BUY',  conf:72, weight:8.0},
+      {name:'Seasonality', signal:'BUY',  conf:64, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:70, weight:5.0},
+      {name:'Spreads',     signal:'HOLD', conf:54, weight:3.0},
+      {name:'Consumer demand',signal:'BUY',conf:66,weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:74,color:'teal'},{label:'Commercial hedgers',val:56,color:'amber'},{label:'Small speculators',val:40,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+3.8%',contract:'KCN25',daysToRoll:16},
+    vol: {ivRank:'38th %ile',realVol:'28.4%',regime:'Medium',adx:'Strong (ADX 40)',mktRegime:'Trending bull',corr:'BRL/USD −0.72'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (38th %ile)',c:'amber'},{k:'Brazil off-year',v:'Biennial low',c:'teal'},{k:'Drought stress',v:'Minas Gerais dry',c:'teal'},{k:'ICO cert stocks',v:'Near historic low',c:'teal'},{k:'Regime prob.',v:'74%',c:''}],
+    inventoryTitle:'ICO & exchange stocks',
+    inventory: [{k:'ICE certified stocks',v:'0.38M bags',c:'teal'},{k:'vs 5yr avg',v:'-68%',c:'teal'},{k:'Brazil export pace',v:'-8% YoY',c:'teal'},{k:'Vietnam harvest',v:'Improving',c:''},{k:'Colombia output',v:'Recovering',c:''}],
+    intelTitle:'Crop intelligence',
+    intel: [{k:'Brazil rainfall',v:'Well below normal',c:'teal'},{k:'Frost risk',v:'Low (autumn)',c:''},{k:'BRL/USD trend',v:'BRL weakening',c:'teal'},{k:'Roaster coverage',v:'Undersold',c:'teal'},{k:'Shipping logistics',v:'Delays at Santos',c:'teal'},{k:'News sentiment',v:'+0.64',c:'teal'}],
+    llm:'<span class="analysis-label">COFFEE BUY — 76% CONFIDENCE</span><br><br>ICE certified coffee stocks at near-historic lows, down 68% from 5-year average. Brazil in off-year of biennial production cycle with drought stress in Minas Gerais exacerbating the deficit. BRL weakness reducing Brazilian producer selling incentive. Roasters undersold on forward coverage.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Vietnam and Colombia improving crops could provide partial supply offset. Speculative positioning already elevated.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −3.0%. Target +6.5%. R/R 1:2.2.',
+  },
+  'Cocoa (CC)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:76, weight:12.0},
+      {name:'West Africa crop',signal:'BUY',conf:82,weight:16.0},
+      {name:'Weather',     signal:'BUY',  conf:80, weight:15.0},
+      {name:'Disease (CSSVD)',signal:'BUY',conf:74,weight:13.0},
+      {name:'COT',         signal:'BUY',  conf:70, weight:10.0},
+      {name:'Grinding demand',signal:'BUY',conf:68,weight:9.0},
+      {name:'Ivory Coast',  signal:'BUY', conf:74, weight:9.0},
+      {name:'Seasonality', signal:'HOLD', conf:55, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:68, weight:5.0},
+      {name:'Exchange stocks',signal:'BUY',conf:72,weight:5.0},
+      {name:'Spreads',     signal:'BUY',  conf:66, weight:3.0},
+      {name:'Currency',    signal:'BUY',  conf:64, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:82,color:'teal'},{label:'Commercial hedgers',val:64,color:'amber'},{label:'Small speculators',val:48,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+8.4%',contract:'CCN25',daysToRoll:14},
+    vol: {ivRank:'58th %ile',realVol:'44.6%',regime:'High',adx:'Very Strong (ADX 52)',mktRegime:'Trending bull',corr:'CSSVD spread +0.84'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'High (58th %ile)',c:'amber'},{k:'Supply deficit',v:'Record 480kt',c:'teal'},{k:'Disease spread',v:'Accelerating',c:'teal'},{k:'Ghana receipts',v:'-28% YoY',c:'teal'},{k:'Regime prob.',v:'78%',c:''}],
+    inventoryTitle:'Exchange & physical',
+    inventory: [{k:'ICE NY stocks',v:'1.52M bags',c:'teal'},{k:'vs 5yr avg',v:'-42%',c:'teal'},{k:'Ivory Coast mid-crop',v:'-32% YoY',c:'teal'},{k:'Ghana receipts',v:'-28% YoY',c:'teal'},{k:'Grinder coverage',v:'Minimal',c:'teal'}],
+    intelTitle:'Crop intelligence',
+    intel: [{k:'CSSVD disease',v:'Spreading widely',c:'teal'},{k:'Harmattan wind',v:'Damaging pods',c:'teal'},{k:'Ghana/IC government',v:'Price floor support',c:'teal'},{k:'Chocolate makers',v:'Reducing sizes',c:'amber'},{k:'Satellite crop index',v:'Severe stress',c:'teal'},{k:'News sentiment',v:'+0.72',c:'teal'}],
+    llm:'<span class="analysis-label">COCOA BUY — 78% CONFIDENCE</span><br><br>Record global cocoa deficit of 480kt expected. West African crops devastated by combination of CSSVD swollen shoot disease, Harmattan wind damage, and El Niño dryness. Ghana and Ivory Coast receipts down 28-32% YoY. Exchange stocks at 42% below average. Backwardation at +8.4% annualized roll yield.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Extreme volatility at these price levels. Speculative positioning near historic highs increases squeeze risk in both directions.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −5.0%. Target +10.0%. R/R 1:2.0. Reduce size due to high volatility.',
+  },
+  'Sugar (SB)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:68, weight:12.0},
+      {name:'Brazil crop', signal:'HOLD', conf:56, weight:11.0},
+      {name:'Ethanol parity',signal:'BUY',conf:72,weight:13.0},
+      {name:'India supply',signal:'BUY',  conf:74, weight:14.0},
+      {name:'Weather',     signal:'BUY',  conf:70, weight:13.0},
+      {name:'COT',         signal:'BUY',  conf:66, weight:10.0},
+      {name:'Currency BRL',signal:'BUY',  conf:64, weight:8.0},
+      {name:'Seasonality', signal:'HOLD', conf:54, weight:7.0},
+      {name:'EU production',signal:'BUY', conf:62, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:66, weight:5.0},
+      {name:'Spreads',     signal:'HOLD', conf:52, weight:4.0},
+      {name:'Demand growth',signal:'BUY', conf:60, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:68,color:'teal'},{label:'Commercial hedgers',val:50,color:'amber'},{label:'Small speculators',val:35,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+2.8%',contract:'SBN25',daysToRoll:20},
+    vol: {ivRank:'34th %ile',realVol:'24.8%',regime:'Medium',adx:'Moderate (ADX 28)',mktRegime:'Ranging bull',corr:'BRL/USD −0.68'},
+    regimeLabel:'Ranging bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (34th %ile)',c:''},{k:'India export cut',v:'Below quota',c:'teal'},{k:'Brazil ethanol',v:'Competing for cane',c:'teal'},{k:'EU beet crop',v:'Below avg',c:'teal'},{k:'Regime prob.',v:'64%',c:''}],
+    inventoryTitle:'Global supply',
+    inventory: [{k:'World sugar balance',v:'-4.2M mt deficit',c:'teal'},{k:'India exports',v:'Restricted',c:'teal'},{k:'Brazil divert to ethanol',v:'40% cane to ethanol',c:'teal'},{k:'Thailand production',v:'Below avg',c:'teal'},{k:'ISO balance sheet',v:'Deficit for 3rd yr',c:'teal'}],
+    intelTitle:'Policy & crop',
+    intel: [{k:'India export quota',v:'6M mt cap',c:'teal'},{k:'Brazil ethanol price',v:'Above parity',c:'teal'},{k:'EU beet survey',v:'-8% YoY area',c:'teal'},{k:'Pakistan crop',v:'Recovering',c:''},{k:'News sentiment',v:'+0.38',c:'teal'},{k:'Spec positioning',v:'68th %ile',c:'teal'}],
+    llm:'<span class="analysis-label">SUGAR BUY — 66% CONFIDENCE</span><br><br>Global sugar deficit for third consecutive year at 4.2M mt. India export restrictions limiting world supply. Brazil diverting 40% of sugarcane crush to ethanol due to favorable ethanol parity prices. EU beet crop area reduced 8% YoY.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> India policy reversal allowing higher exports would sharply increase supply. Brazil currency strengthening would reduce sugar production economics.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.8%. Target +4.8%. R/R 1:1.7.',
+  },
+  'Cotton (CT)': {
+    agents: [
+      {name:'Technical',   signal:'HOLD', conf:58, weight:13.0},
+      {name:'USDA report', signal:'SELL', conf:62, weight:12.0},
+      {name:'China demand',signal:'BUY',  conf:68, weight:13.0},
+      {name:'US plantings',signal:'SELL', conf:60, weight:11.0},
+      {name:'Weather',     signal:'HOLD', conf:55, weight:10.0},
+      {name:'COT',         signal:'SELL', conf:60, weight:9.0},
+      {name:'Textile demand',signal:'HOLD',conf:55,weight:8.0},
+      {name:'Seasonality', signal:'SELL', conf:62, weight:7.0},
+      {name:'India export',signal:'SELL', conf:58, weight:6.0},
+      {name:'Options flow',signal:'HOLD', conf:52, weight:5.0},
+      {name:'Spreads',     signal:'SELL', conf:56, weight:4.0},
+      {name:'Currency',    signal:'HOLD', conf:50, weight:2.0},
+    ],
+    cot: [{label:'Managed money',val:38,color:'teal'},{label:'Commercial hedgers',val:28,color:'amber'},{label:'Small speculators',val:20,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.6%',contract:'CTZ25',daysToRoll:28},
+    vol: {ivRank:'46th %ile',realVol:'22.4%',regime:'Medium',adx:'Weak (ADX 18)',mktRegime:'Downtrend',corr:'DXY +0.52'},
+    regimeLabel:'Downtrend', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium (46th %ile)',c:'amber'},{k:'World ending stocks',v:'Building',c:''},{k:'US planted acres',v:'Increasing',c:''},{k:'China demand',v:'Recovering',c:'teal'},{k:'Regime prob.',v:'58%',c:''}],
+    inventoryTitle:'USDA supply',
+    inventory: [{k:'World ending stocks',v:'87.4M 480lb bales',c:''},{k:'vs USDA est.',v:'+3.2M above',c:''},{k:'US production',v:'+8% YoY est.',c:''},{k:'India export pace',v:'Strong',c:''},{k:'China import demand',v:'Recovering',c:'teal'}],
+    intelTitle:'Trade & textile',
+    intel: [{k:'China textile orders',v:'Improving',c:'teal'},{k:'US planting survey',v:'Increase expected',c:''},{k:'Pakistan spinning',v:'Below capacity',c:''},{k:'Bangladesh demand',v:'Stable',c:''},{k:'News sentiment',v:'-0.18',c:''},{k:'Spec short position',v:'Elevated',c:''}],
+    llm:'<span class="analysis-label">COTTON SELL — 60% CONFIDENCE</span><br><br>USDA projecting world ending stocks above estimates with US planted acreage expected to increase. India exporting aggressively. Speculative short positioning elevated. Only Chinese demand recovery provides meaningful upside catalyst.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> China import surge on textile recovery could quickly reverse the bearish setup. Monitor China PMI textile sub-index.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Short at market. Stop loss +2.4%. Target −4.0%. R/R 1:1.7.',
+  },
+  'Orange juice (OJ)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:74, weight:12.0},
+      {name:'Florida crop',signal:'BUY',  conf:84, weight:17.0},
+      {name:'HLB disease', signal:'BUY',  conf:82, weight:16.0},
+      {name:'Brazil crop', signal:'HOLD', conf:58, weight:10.0},
+      {name:'Weather',     signal:'BUY',  conf:76, weight:13.0},
+      {name:'COT',         signal:'BUY',  conf:70, weight:10.0},
+      {name:'Exchange stocks',signal:'BUY',conf:78,weight:9.0},
+      {name:'Seasonality', signal:'BUY',  conf:68, weight:6.0},
+      {name:'Consumer demand',signal:'HOLD',conf:56,weight:5.0},
+      {name:'Options flow',signal:'BUY',  conf:72, weight:5.0},
+      {name:'Spreads',     signal:'BUY',  conf:66, weight:3.0},
+      {name:'Currency BRL',signal:'HOLD', conf:54, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:78,color:'teal'},{label:'Commercial hedgers',val:60,color:'amber'},{label:'Small speculators',val:44,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+6.2%',contract:'OJN25',daysToRoll:14},
+    vol: {ivRank:'62nd %ile',realVol:'38.4%',regime:'High',adx:'Very Strong (ADX 48)',mktRegime:'Trending bull',corr:'HLB severity +0.88'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'High (62nd %ile)',c:'amber'},{k:'Florida production',v:'Record low',c:'teal'},{k:'HLB disease',v:'Uncured — worsening',c:'teal'},{k:'ICE stocks',v:'Near historic low',c:'teal'},{k:'Regime prob.',v:'76%',c:''}],
+    inventoryTitle:'USDA & exchange',
+    inventory: [{k:'ICE certified stocks',v:'62k boxes',c:'teal'},{k:'vs 5yr avg',v:'-82%',c:'teal'},{k:'Florida forecast',v:'16M boxes',c:'teal'},{k:'Brazil FCOJ output',v:'Stable',c:''},{k:'Processor inventories',v:'Critically low',c:'teal'}],
+    intelTitle:'Disease & weather',
+    intel: [{k:'HLB citrus greening',v:'No cure available',c:'teal'},{k:'Florida grove area',v:'-40% in 15 years',c:'teal'},{k:'Hurricane damage',v:'Ongoing legacy',c:'teal'},{k:'Brazil rainfall',v:'Normal',c:''},{k:'Processor buying',v:'Active',c:'teal'},{k:'News sentiment',v:'+0.68',c:'teal'}],
+    llm:'<span class="analysis-label">ORANGE JUICE BUY — 78% CONFIDENCE</span><br><br>Florida citrus production at historic lows due to Huanglongbing (HLB) citrus greening disease with no available cure. Grove acreage down 40% over 15 years. ICE certified stocks 82% below 5-year average. Processor inventories critically low entering summer demand season.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Brazil FCOJ exports can partially offset Florida deficit. Demand destruction at record price levels is a real risk.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −4.0%. Target +9.0%. R/R 1:2.25. High volatility — reduce size.',
+  },
+  'Lumber (LBS)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:66, weight:13.0},
+      {name:'Housing starts',signal:'BUY',conf:70, weight:14.0},
+      {name:'Mortgage rates',signal:'HOLD',conf:56,weight:11.0},
+      {name:'Canada supply',signal:'BUY',  conf:68, weight:12.0},
+      {name:'BC beetle kill',signal:'BUY', conf:72, weight:12.0},
+      {name:'Seasonality', signal:'BUY',  conf:74, weight:11.0},
+      {name:'COT',         signal:'HOLD', conf:54, weight:8.0},
+      {name:'Repair/remodel',signal:'BUY',conf:64, weight:7.0},
+      {name:'Sawmill runs',signal:'HOLD', conf:56, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:62, weight:5.0},
+      {name:'Spreads',     signal:'HOLD', conf:52, weight:4.0},
+      {name:'DIY demand',  signal:'BUY',  conf:60, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:62,color:'teal'},{label:'Commercial hedgers',val:46,color:'amber'},{label:'Small speculators',val:30,color:'muted'}],
+    futures: {structure:'Contango',rollYield:'-1.8%',contract:'LBSM25',daysToRoll:24},
+    vol: {ivRank:'40th %ile',realVol:'34.6%',regime:'Medium-High',adx:'Moderate (ADX 26)',mktRegime:'Seasonal bull',corr:'Housing starts +0.76'},
+    regimeLabel:'Seasonal bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium-High',c:'amber'},{k:'Building season',v:'Approaching',c:'teal'},{k:'BC beetle kill',v:'Reducing supply',c:'teal'},{k:'Housing shortage',v:'Structural',c:'teal'},{k:'Regime prob.',v:'64%',c:''}],
+    inventoryTitle:'Supply & demand',
+    inventory: [{k:'Mill inventories',v:'Below normal',c:'teal'},{k:'BC production',v:'-14% YoY',c:'teal'},{k:'US mill capacity',v:'85% utilized',c:'teal'},{k:'Builder inventories',v:'Lean',c:'teal'},{k:'Import volumes',v:'Declining',c:'teal'}],
+    intelTitle:'Housing intelligence',
+    intel: [{k:'Housing starts',v:'+8% MoM',c:'teal'},{k:'Permit backlog',v:'Large',c:'teal'},{k:'30yr mortgage rate',v:'6.8% — headwind',c:'amber'},{k:'R&R spending',v:'+5% YoY',c:'teal'},{k:'BC wildfire risk',v:'Elevated summer',c:'amber'},{k:'News sentiment',v:'+0.40',c:'teal'}],
+    llm:'<span class="analysis-label">LUMBER BUY — 65% CONFIDENCE</span><br><br>Spring building season approaching with lean builder inventories. BC pine beetle kill reducing Canadian timber supply structurally long-term. Housing shortage driving record permit backlogs. US mill capacity utilization at 85%. High volatility characteristic of lumber requires wide stops and smaller sizing.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Mortgage rate headwind at 6.8% suppressing new home affordability. Lumber historically extremely volatile — use wider stops.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −5.0%. Target +9.0%. R/R 1:1.8. Reduce size.',
+  },
+  // ── LIVESTOCK ──
+  'Live cattle (LE)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:76, weight:13.0},
+      {name:'USDA Cattle on Feed',signal:'BUY',conf:78,weight:15.0},
+      {name:'Packer demand',signal:'BUY', conf:74, weight:13.0},
+      {name:'Herd liquidation',signal:'BUY',conf:80,weight:14.0},
+      {name:'Seasonal demand',signal:'BUY',conf:72,weight:11.0},
+      {name:'COT',         signal:'BUY',  conf:68, weight:10.0},
+      {name:'Feed costs',  signal:'HOLD', conf:56, weight:8.0},
+      {name:'Cold storage',signal:'BUY',  conf:70, weight:7.0},
+      {name:'Export demand',signal:'BUY', conf:66, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:70, weight:5.0},
+      {name:'Retail demand',signal:'BUY', conf:64, weight:4.0},
+      {name:'Disease risk',signal:'HOLD', conf:52, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:76,color:'teal'},{label:'Commercial hedgers',val:58,color:'amber'},{label:'Small speculators',val:42,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+3.4%',contract:'LEQ25',daysToRoll:26},
+    vol: {ivRank:'22nd %ile',realVol:'12.4%',regime:'Low',adx:'Strong (ADX 38)',mktRegime:'Trending bull',corr:'Feeder cattle +0.94'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low (22nd %ile)',c:''},{k:'Cattle on feed',v:'Below yr-ago',c:'teal'},{k:'Herd size',v:'Smallest since 1951',c:'teal'},{k:'Packer margins',v:'Recovering',c:'teal'},{k:'Regime prob.',v:'76%',c:''}],
+    inventoryTitle:'USDA cattle supply',
+    inventory: [{k:'Cattle on feed',v:'-4.2% vs yr-ago',c:'teal'},{k:'Placements',v:'-6.8% YoY',c:'teal'},{k:'Marketings',v:'-2.1% YoY',c:'teal'},{k:'Dressed weights',v:'Above avg',c:''},{k:'Cold storage beef',v:'-8% vs avg',c:'teal'}],
+    intelTitle:'Demand intelligence',
+    intel: [{k:'Grilling season',v:'6 weeks away',c:'teal'},{k:'Retail beef price',v:'Record high',c:'teal'},{k:'Restaurant demand',v:'Strong',c:'teal'},{k:'Japan/Korea exports',v:'+12% YoY',c:'teal'},{k:'Feed lot margins',v:'Positive',c:'teal'},{k:'News sentiment',v:'+0.58',c:'teal'}],
+    llm:'<span class="analysis-label">LIVE CATTLE BUY — 76% CONFIDENCE</span><br><br>US cattle herd at smallest size since 1951 after multi-year drought-driven liquidation. Cattle on feed 4.2% below year-ago with placements down 6.8% — pipeline thinning. Cold storage beef stocks 8% below average. Grilling season demand 6 weeks away. Structural bull market in beef driven by record-tight supply.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Record retail beef prices could cause demand destruction. Packer margin squeeze could reduce slaughter pace.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −1.8%. Target +3.2%. R/R 1:1.8.',
+  },
+  'Lean hogs (HE)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:68, weight:13.0},
+      {name:'USDA Hogs & Pigs',signal:'HOLD',conf:56,weight:12.0},
+      {name:'Packer demand',signal:'BUY', conf:70, weight:12.0},
+      {name:'Seasonal demand',signal:'BUY',conf:74,weight:13.0},
+      {name:'Cold storage',signal:'BUY',  conf:66, weight:10.0},
+      {name:'COT',         signal:'BUY',  conf:64, weight:10.0},
+      {name:'Export demand',signal:'BUY', conf:70, weight:9.0},
+      {name:'Feed costs',  signal:'SELL', conf:58, weight:7.0},
+      {name:'PRRS disease',signal:'HOLD', conf:52, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:64, weight:5.0},
+      {name:'Spreads',     signal:'BUY',  conf:60, weight:4.0},
+      {name:'Retail demand',signal:'BUY', conf:62, weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:64,color:'teal'},{label:'Commercial hedgers',val:48,color:'amber'},{label:'Small speculators',val:34,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+2.2%',contract:'HEQ25',daysToRoll:24},
+    vol: {ivRank:'38th %ile',realVol:'22.8%',regime:'Medium',adx:'Moderate (ADX 26)',mktRegime:'Seasonal bull',corr:'Cash hog price +0.88'},
+    regimeLabel:'Seasonal bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Medium (38th %ile)',c:'amber'},{k:'Seasonal demand',v:'Spring uptick',c:'teal'},{k:'China exports',v:'Strong pace',c:'teal'},{k:'Pork cutout',v:'Rising',c:'teal'},{k:'Regime prob.',v:'64%',c:''}],
+    inventoryTitle:'USDA hog supply',
+    inventory: [{k:'Hog supply index',v:'+1.2% vs yr-ago',c:''},{k:'Pork cold storage',v:'-6% vs avg',c:'teal'},{k:'Slaughter pace',v:'Steady',c:''},{k:'Dressed weights',v:'Heavy',c:''},{k:'Pork cutout value',v:'Rising',c:'teal'}],
+    intelTitle:'Demand intelligence',
+    intel: [{k:'BBQ season approach',v:'6 weeks away',c:'teal'},{k:'China pork import',v:'Active buying',c:'teal'},{k:'Mexico export demand',v:'+18% YoY',c:'teal'},{k:'Feed cost (corn/meal)',v:'Elevated headwind',c:'amber'},{k:'PRRS disease risk',v:'Moderate',c:'amber'},{k:'News sentiment',v:'+0.36',c:'teal'}],
+    llm:'<span class="analysis-label">LEAN HOGS BUY — 65% CONFIDENCE</span><br><br>Seasonal spring/summer demand uptick approaching with BBQ season. Pork cold storage 6% below average. China and Mexico export demand running strong. Pork cutout values rising as retail demand improves. Supply side slightly above year-ago but not burdensome.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Elevated corn and soybean meal feed costs compressing packer margins. PRRS disease spread could disrupt herd health.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.6%. Target +4.4%. R/R 1:1.7.',
+  },
+  'Feeder cattle (GF)': {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:74, weight:13.0},
+      {name:'CME feeder index',signal:'BUY',conf:78,weight:15.0},
+      {name:'Corn cost',   signal:'BUY',  conf:70, weight:13.0},
+      {name:'Drought monitor',signal:'BUY',conf:72,weight:12.0},
+      {name:'Pasture condition',signal:'BUY',conf:68,weight:11.0},
+      {name:'COT',         signal:'BUY',  conf:66, weight:9.0},
+      {name:'Live cattle spread',signal:'BUY',conf:74,weight:10.0},
+      {name:'Stocker demand',signal:'BUY', conf:70, weight:8.0},
+      {name:'Seasonality', signal:'BUY',  conf:72, weight:6.0},
+      {name:'Options flow',signal:'BUY',  conf:68, weight:5.0},
+      {name:'Spreads',     signal:'BUY',  conf:64, weight:4.0},
+      {name:'Ranch receipts',signal:'BUY',conf:66,weight:0.0},
+    ],
+    cot: [{label:'Managed money',val:74,color:'teal'},{label:'Commercial hedgers',val:56,color:'amber'},{label:'Small speculators',val:40,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+2.8%',contract:'GFQ25',daysToRoll:28},
+    vol: {ivRank:'18th %ile',realVol:'10.8%',regime:'Low',adx:'Strong (ADX 40)',mktRegime:'Trending bull',corr:'Live cattle +0.94'},
+    regimeLabel:'Trending bull', regimeClass:'regime-bull',
+    regime: [{k:'Volatility',v:'Low (18th %ile)',c:''},{k:'Calf supply',v:'Tightest since 1951',c:'teal'},{k:'Corn cost',v:'Favorable margins',c:'teal'},{k:'Pasture recovery',v:'Improving',c:'teal'},{k:'Regime prob.',v:'74%',c:''}],
+    inventoryTitle:'Supply pipeline',
+    inventory: [{k:'Feeder cattle supply',v:'Historically tight',c:'teal'},{k:'Calf crop',v:'-3.8% YoY',c:'teal'},{k:'Auction receipts',v:'Below yr-ago',c:'teal'},{k:'CME feeder index',v:'Record high',c:'teal'},{k:'Drought-area recovery',v:'Gradual',c:'teal'}],
+    intelTitle:'Ranch intelligence',
+    intel: [{k:'Southern Plains grass',v:'Improving',c:'teal'},{k:'Drought monitor',v:'Improving slowly',c:'teal'},{k:'Corn-to-cattle spread',v:'Favorable',c:'teal'},{k:'Live-feeder spread',v:'Wide — bullish',c:'teal'},{k:'Ranch heifer retention',v:'Increasing',c:'teal'},{k:'News sentiment',v:'+0.54',c:'teal'}],
+    llm:'<span class="analysis-label">FEEDER CATTLE BUY — 74% CONFIDENCE</span><br><br>Feeder cattle supply historically tight — calf crop down 3.8% YoY reflecting years of drought-driven liquidation. CME feeder index at record high. Corn prices favorable supporting feed lot placement economics. Pasture conditions slowly improving in Southern Plains allowing gradual herd rebuilding. Live-feeder spread wide and bullish.<br><br><strong style="color:var(--mx-amber)">Key risk:</strong> Drought return to Southern Plains would accelerate liquidation. Corn price spike would pressure feeder margins.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −1.6%. Target +2.8%. R/R 1:1.75.',
+  },
+};
+
+// Default for any commodity not explicitly defined
+function getDefaultData(name) {
+  const signals = ['BUY','BUY','BUY','HOLD','SELL'];
+  return {
+    agents: [
+      {name:'Technical',   signal:'BUY',  conf:65, weight:14.0},
+      {name:'COT',         signal:'BUY',  conf:60, weight:12.0},
+      {name:'Seasonality', signal:'HOLD', conf:55, weight:10.0},
+      {name:'Macro',       signal:'BUY',  conf:62, weight:11.0},
+      {name:'Options flow',signal:'BUY',  conf:58, weight:9.0},
+      {name:'Weather',     signal:'HOLD', conf:52, weight:8.0},
+      {name:'Spreads',     signal:'BUY',  conf:56, weight:7.0},
+      {name:'Export demand',signal:'BUY', conf:60, weight:8.0},
+      {name:'Inventory',   signal:'BUY',  conf:58, weight:7.0},
+      {name:'Satellite',   signal:'HOLD', conf:50, weight:6.0},
+      {name:'Fundamentals',signal:'BUY',  conf:62, weight:5.0},
+      {name:'Sentiment',   signal:'HOLD', conf:54, weight:3.0},
+    ],
+    cot: [{label:'Commercials',val:60,color:'teal'},{label:'Large speculators',val:48,color:'amber'},{label:'Small speculators',val:30,color:'muted'}],
+    futures: {structure:'Backwardation',rollYield:'+1.8%',contract:'N/A',daysToRoll:20},
+    vol: {ivRank:'30th %ile',realVol:'18.0%',regime:'Medium',adx:'Moderate (ADX 26)',mktRegime:'Trending',corr:'N/A'},
+    regimeLabel:'Trending', regimeClass:'',
+    regime: [{k:'Volatility',v:'Medium',c:''},{k:'Trend',v:'Moderate',c:''},{k:'Volume',v:'Average',c:''},{k:'Regime prob.',v:'60%',c:''}],
+    inventoryTitle:'Supply & demand',
+    inventory: [{k:'Stocks',v:'Near avg',c:''},{k:'Production',v:'Stable',c:''},{k:'Demand',v:'Steady',c:''}],
+    intelTitle:'Intelligence feeds',
+    intel: [{k:'Sentiment',v:'Neutral',c:''},{k:'Export demand',v:'Stable',c:''},{k:'Weather',v:'Normal',c:''}],
+    llm:`<span class="analysis-label">${name.toUpperCase()} BUY — 62% CONFIDENCE</span><br><br>Moderate bullish setup with technical and COT agents aligned. Monitoring for catalyst to confirm directional conviction.<br><br><strong style="color:var(--mx-blue-bright)">Execution:</strong> Entry at market. Stop loss −2.5%. Target +4.0%. R/R 1:1.6.`,
+  };
+}
+
+function renderCommodityData(name) {
+  const d = commodityData[name] || getDefaultData(name);
+
+  // Agent signals
+  const grid = document.getElementById('agents-grid');
+  grid.innerHTML = d.agents.map(a => {
+    const cls = a.signal === 'BUY' ? 'signal-buy' : a.signal === 'SELL' ? 'signal-sell' : 'signal-hold';
+    return `<div class="agent-cell">
+      <div class="agent-name">${a.name}</div>
+      <div class="agent-signal ${cls}">${a.signal}</div>
+      <div class="agent-meta">${a.conf}% · ${a.weight.toFixed(1)}%w</div>
+    </div>`;
+  }).join('');
+
+  // COT
+  const cotColors = {teal:'linear-gradient(90deg,var(--mx-blue),var(--mx-teal))',amber:'var(--mx-amber)',muted:'var(--text-muted)'};
+  document.getElementById('cot-body').innerHTML = d.cot.map(c =>
+    `<div class="bar-row"><span>${c.label}</span><span style="color:var(--mx-${c.color === 'teal' ? 'teal' : c.color === 'amber' ? 'amber' : 'text-muted'});font-weight:600;font-family:var(--mono)">${c.val}th %ile long</span></div>
+     <div class="bar-track"><div class="bar-fill" style="width:${c.val}%;background:${cotColors[c.color]}"></div></div>`
+  ).join('');
+
+  // Futures
+  const fc = d.futures;
+  const fcColor = fc.structure === 'Backwardation' ? 'var(--mx-amber)' : 'var(--mx-red)';
+  const ryColor = fc.rollYield.startsWith('+') ? 'var(--mx-teal)' : 'var(--mx-red)';
+  document.getElementById('futures-body').innerHTML = `
+    <div class="data-row"><span>Structure</span><span class="data-value" style="color:${fcColor}">${fc.structure}</span></div>
+    <div class="data-row"><span>Roll yield (ann.)</span><span class="data-value" style="color:${ryColor}">${fc.rollYield}</span></div>
+    <div class="data-row"><span>Active contract</span><span class="data-value">${fc.contract}</span></div>
+    <div class="data-row"><span>Days to roll</span><span class="data-value">${fc.daysToRoll}</span></div>`;
+
+  // Vol & regime
+  const v = d.vol;
+  const ivColor = parseInt(v.ivRank) < 30 ? 'var(--mx-teal)' : parseInt(v.ivRank) > 60 ? 'var(--mx-red)' : 'var(--text-secondary)';
+  document.getElementById('vol-body').innerHTML = `
+    <div class="data-row"><span>IV rank (30d)</span><span class="data-value" style="color:${ivColor}">${v.ivRank}</span></div>
+    <div class="data-row"><span>Realized vol</span><span class="data-value">${v.realVol}</span></div>
+    <div class="data-row"><span>Vol regime</span><span class="data-value" style="color:${ivColor}">${v.regime}</span></div>
+    <div class="data-row"><span>Trend strength</span><span class="data-value" style="color:var(--mx-teal)">${v.adx}</span></div>
+    <div class="data-row"><span>Market regime</span><span class="data-value" style="color:var(--mx-teal)">${v.mktRegime}</span></div>
+    <div class="data-row"><span>Key correlation</span><span class="data-value">${v.corr}</span></div>`;
+
+  // Regime
+  const rb = document.getElementById('regime-body');
+  rb.innerHTML = `<div class="regime-badge ${d.regimeClass}" style="margin-bottom:14px">${d.regimeLabel}</div>` +
+    d.regime.map(r => `<div class="data-row"><span>${r.k}</span><span class="data-value"${r.c ? ` style="color:var(--mx-${r.c})"` : ''}>${r.v}</span></div>`).join('');
+
+  // Inventory
+  document.getElementById('inventory-title').textContent = d.inventoryTitle;
+  document.getElementById('inventory-body').innerHTML = d.inventory.map(r =>
+    `<div class="data-row"><span>${r.k}</span><span class="data-value"${r.c ? ` style="color:var(--mx-${r.c})"` : ''}>${r.v}</span></div>`
+  ).join('');
+
+  // Intel
+  document.getElementById('intel-title').textContent = d.intelTitle;
+  document.getElementById('intel-body').innerHTML = d.intel.map(r =>
+    `<div class="data-row"><span>${r.k}</span><span class="data-value"${r.c ? ` style="color:var(--mx-${r.c})"` : ''}>${r.v}</span></div>`
+  ).join('');
+
+  // LLM analysis
+  document.getElementById('llm-analysis').innerHTML = d.llm;
+
+  // Update fusion signal & active agents count based on agents
+  const buys = d.agents.filter(a => a.signal === 'BUY').length;
+  const total = d.agents.length;
+  const topSignal = buys > total/2 ? 'BUY' : d.agents.filter(a=>a.signal==='SELL').length > total/2 ? 'SELL' : 'HOLD';
+  const topConf = Math.round(d.agents.reduce((s,a) => s + a.conf*a.weight, 0) / d.agents.reduce((s,a) => s + a.weight, 0));
+  const signalEl = document.querySelector('.metric:nth-child(2) .metric-value');
+  const confEl   = document.querySelector('.metric:nth-child(2) .metric-sub');
+  const agentsEl = document.querySelector('.metric:nth-child(3) .metric-value');
+  const agentsSubEl = document.querySelector('.metric:nth-child(3) .metric-sub');
+  if (signalEl) { signalEl.textContent = topSignal; signalEl.style.color = topSignal==='BUY'?'var(--mx-teal)':topSignal==='SELL'?'var(--mx-red)':'var(--text-secondary)'; }
+  if (confEl)   confEl.textContent = `Confidence: ${topConf}%`;
+  if (agentsEl) agentsEl.textContent = `${buys} / ${total}`;
+  if (agentsSubEl) agentsSubEl.textContent = buys > total*0.6 ? 'All healthy' : buys > total*0.4 ? 'Mixed signals' : 'Bearish lean';
+}
 
 // ── TIMEFRAME BUTTONS ────────────────────────────────────────────
 document.querySelectorAll('.tf-btn').forEach(btn => {
@@ -1046,6 +1787,9 @@ function addCrosshair(canvas) {
 }
 addCrosshair(document.getElementById('candleChart'));
 
+// ── INIT ─────────────────────────────────────────────────────────
+setPrice('Gold (GC)');
+renderCommodityData('Gold (GC)');
 </script>
 </body>
 </html>
