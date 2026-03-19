@@ -41,8 +41,9 @@
 --shadow:0 1px 2px rgba(0,0,0,.5),0 0 0 1px var(--border-sharp);
 --shadow-hover:0 4px 20px rgba(0,0,0,.6),0 0 0 1px var(--mx-blue-glow);
 }
-body{font-family:var(--font);background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh;overflow-x:hidden}
+body{font-family:var(--font);background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 .dashboard{max-width:1440px;margin:0 auto;padding:20px 24px}
+.card,.metric,.bottom-card{transform:translateZ(0)}
 
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
 .topbar-left{display:flex;align-items:center;gap:14px}
@@ -371,10 +372,10 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
 
 <div class="grid-2-1">
   <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
-    <!-- CANDLESTICK CHART -->
-    <div class="card" style="padding:16px 20px 12px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="card-title" id="chart-title" style="margin-bottom:0">Gold (GC) — 4H chart</div>
+    <!-- LIGHTWEIGHT CHART -->
+    <div class="card" style="padding:16px 20px 12px;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div class="card-title" id="chart-title" style="margin-bottom:0">Gold (GC) — 4H Chart</div>
         <div style="display:flex;gap:6px">
           <span class="tf-btn">1H</span>
           <span class="tf-btn tf-active">4H</span>
@@ -382,11 +383,8 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
           <span class="tf-btn">1W</span>
         </div>
       </div>
-      <div style="position:relative;height:clamp(180px,35vw,280px)">
-        <canvas id="candleChart"></canvas>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;font-family:var(--mono);color:var(--text-muted)">
-        <span>Mar 10</span><span>Mar 11</span><span>Mar 12</span><span>Mar 13</span><span>Mar 14</span><span>Mar 15</span><span>Mar 16</span><span>Mar 17</span><span>Mar 18</span>
+      <div id="lw-chart" style="height:clamp(280px,38vw,420px);width:100%;background:#090c14;display:flex;align-items:center;justify-content:center">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">Loading chart...</span>
       </div>
     </div>
     <div class="card">
@@ -515,7 +513,7 @@ body{background:linear-gradient(160deg,#070c1a 0%,#050710 45%,#030509 100%) !imp
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js" defer></script>
 <script>
 // ── COUNTDOWN ───────────────────────────────────────────────────
 function updateCountdown(){
@@ -526,11 +524,8 @@ function updateCountdown(){
 }
 setInterval(updateCountdown,1000);updateCountdown();
 
-// ── STATE (declared first so nothing is used before init) ────────
+// ── STATE ────────────────────────────────────────────────────────
 let currentPrice = 0;
-let activeCandles = [];
-let liveInterval  = null;
-let candleChart   = null;
 let activeTF      = '4H';
 
 // ── SEED PRICES ─────────────────────────────────────────────────
@@ -576,121 +571,142 @@ function formatPrice(price) {
   return '$' + price.toFixed(4);
 }
 
-// ── CHART ENGINE ─────────────────────────────────────────────────
-const tfConfig = {
-  '1H': { count: 60, volatility: 2,  interval: 3000  },
-  '4H': { count: 43, volatility: 8,  interval: 8000  },
-  '1D': { count: 30, volatility: 18, interval: 15000 },
-  '1W': { count: 26, volatility: 45, interval: 30000 },
-};
+// ── LIGHTWEIGHT CHARTS ───────────────────────────────────────────
+const tfIntervals = { '1H':'60', '4H':'240', '1D':'D', '1W':'W' };
+let lwChart = null;
+let candleSeries = null;
+let volumeSeries = null;
+let lwInterval = null;
 
-function generateCandles(count, startPrice, volatility) {
-  const candles = [];
-  let price = startPrice;
+function generateOHLC(count, basePrice, volatility) {
+  const data = [];
+  let price = basePrice;
+  let time = Math.floor(Date.now()/1000) - count * 60 * (activeTF === '1H' ? 60 : activeTF === '4H' ? 240 : activeTF === '1D' ? 1440 : 10080);
+  const step = activeTF === '1H' ? 3600 : activeTF === '4H' ? 14400 : activeTF === '1D' ? 86400 : 604800;
   for (let i = 0; i < count; i++) {
-    const open  = price;
-    const move  = (Math.random() - 0.47) * volatility;
+    const open = price;
+    const move = (Math.random() - 0.47) * volatility;
     const close = Math.max(open + move, 0.01);
-    const wm    = volatility * 0.4;
-    candles.push({ o:open, h:Math.max(open,close)+Math.random()*wm, l:Math.min(open,close)-Math.random()*wm, c:close });
+    const wm = volatility * 0.35;
+    const high = Math.max(open, close) + Math.random() * wm;
+    const low  = Math.min(open, close) - Math.random() * wm;
+    const vol  = Math.floor(Math.random() * 8000 + 1000);
+    data.push({ time: time + i * step, open, high, low, close, volume: vol });
     price = close;
   }
-  return candles;
-}
-
-function buildChartData(candles) {
-  return {
-    wickData:   candles.map(d => [d.l, d.h]),
-    bodyData:   candles.map(d => { const b=Math.min(d.o,d.c),t=Math.max(d.o,d.c); return [b, t===b?b+0.01:t]; }),
-    bodyColors: candles.map(d => d.c >= d.o ? '#2d7fe0' : '#1db8a0'),
-    bodyBorder: candles.map(d => d.c >= d.o ? '#2d7fe0' : '#1db8a0'),
-    wickColors: candles.map(d => d.c >= d.o ? '#2d7fe099' : '#1db8a099'),
-    labels:     candles.map(() => ''),
-  };
-}
-
-function getYRange(candles) {
-  const min = Math.min(...candles.map(d=>d.l));
-  const max = Math.max(...candles.map(d=>d.h));
-  const pad = (max - min) * 0.08;
-  return { min: min-pad, max: max+pad };
+  return data;
 }
 
 function renderChart(tf) {
   activeTF = tf;
-  const cfg = tfConfig[tf];
-  activeCandles = generateCandles(cfg.count, currentPrice, cfg.volatility);
-  const { wickData, bodyData, bodyColors, bodyBorder, wickColors, labels } = buildChartData(activeCandles);
-  const { min, max } = getYRange(activeCandles);
+  // Wait for LightweightCharts to be available
+  if (typeof LightweightCharts === 'undefined') {
+    setTimeout(() => renderChart(tf), 200);
+    return;
+  }
+  const container = document.getElementById('lw-chart');
+  if (!container) return;
 
-  if (candleChart) candleChart.destroy();
-  const ctx = document.getElementById('candleChart').getContext('2d');
-  candleChart = new Chart(ctx, {
-    type: 'bar',
-    data: { labels, datasets: [
-      { label:'Wick', data:wickData, backgroundColor:wickColors, barPercentage:0.15, categoryPercentage:1, borderSkipped:false, borderRadius:0 },
-      { label:'Body', data:bodyData, backgroundColor:bodyColors, borderColor:bodyBorder, borderWidth:1.5, barPercentage:0.6, categoryPercentage:1, borderSkipped:false, borderRadius:1 }
-    ]},
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      animation:{ duration:400, easing:'easeOutQuart' },
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#111520', borderColor:'#182548', borderWidth:1,
-          titleFont:{family:'JetBrains Mono',size:10}, bodyFont:{family:'JetBrains Mono',size:10},
-          titleColor:'#e4e8f0', bodyColor:'#7a8399', padding:10, displayColors:false,
-          callbacks:{
-            title: items => 'Candle '+(items[0].dataIndex+1),
-            label: item => {
-              if(item.datasetIndex===0) return null;
-              const d=activeCandles[item.dataIndex];
-              const f=v=>formatPrice(v);
-              return ['O: '+f(d.o),'H: '+f(d.h),'L: '+f(d.l),'C: '+f(d.c)];
-            }
-          }
-        }
-      },
-      scales:{
-        x:{ display:false },
-        y:{ position:'right', min, max,
-          grid:{color:'#ffffff06',lineWidth:0.5}, border:{display:false},
-          ticks:{color:'#4d5570',font:{family:'JetBrains Mono',size:10},maxTicksLimit:6,
-            callback: v => formatPrice(v)
-          }
-        }
-      }
-    }
+  if (lwChart) { lwChart.remove(); lwChart = null; }
+  if (lwInterval) { clearInterval(lwInterval); lwInterval = null; }
+
+  const volatilities = { '1H': currentPrice*0.003, '4H': currentPrice*0.008, '1D': currentPrice*0.018, '1W': currentPrice*0.04 };
+  const counts       = { '1H': 60, '4H': 48, '1D': 60, '1W': 52 };
+  const vol = volatilities[tf] || currentPrice*0.008;
+  const cnt = counts[tf] || 48;
+
+  lwChart = LightweightCharts.createChart(container, {
+    width: container.clientWidth,
+    height: container.clientHeight,
+    layout: {
+      background: { type: 'solid', color: '#090c14' },
+      textColor: '#4d5570',
+      fontFamily: "'JetBrains Mono', monospace",
+      fontSize: 11,
+    },
+    grid: {
+      vertLines: { color: 'rgba(30,37,53,0.6)', style: 1 },
+      horzLines: { color: 'rgba(30,37,53,0.6)', style: 1 },
+    },
+    crosshair: {
+      mode: LightweightCharts.CrosshairMode.Normal,
+      vertLine: { color: '#2d7fe060', labelBackgroundColor: '#111520' },
+      horzLine: { color: '#2d7fe060', labelBackgroundColor: '#111520' },
+    },
+    rightPriceScale: {
+      borderColor: '#1e2535',
+      textColor: '#4d5570',
+    },
+    timeScale: {
+      borderColor: '#1e2535',
+      textColor: '#4d5570',
+      timeVisible: true,
+      secondsVisible: false,
+    },
+    handleScroll: true,
+    handleScale: true,
   });
 
-  if (liveInterval) clearInterval(liveInterval);
-  liveInterval = setInterval(() => {
-    const last = activeCandles[activeCandles.length-1];
-    const newClose = Math.max(last.c + (Math.random()-0.47)*cfg.volatility, 0.01);
-    activeCandles.push({ o:last.c, h:Math.max(last.c,newClose)+Math.random()*cfg.volatility*0.3, l:Math.min(last.c,newClose)-Math.random()*cfg.volatility*0.3, c:newClose });
-    if(activeCandles.length > cfg.count+20) activeCandles.shift();
+  // Volume series (behind candles)
+  volumeSeries = lwChart.addHistogramSeries({
+    priceFormat: { type: 'volume' },
+    priceScaleId: 'vol',
+    scaleMargins: { top: 0.8, bottom: 0 },
+  });
 
-    const {wickData:wd,bodyData:bd,bodyColors:bc,bodyBorder:bb,wickColors:wc,labels:lb} = buildChartData(activeCandles);
-    const {min:mn,max:mx} = getYRange(activeCandles);
-    candleChart.data.labels=lb;
-    candleChart.data.datasets[0].data=wd; candleChart.data.datasets[0].backgroundColor=wc;
-    candleChart.data.datasets[1].data=bd; candleChart.data.datasets[1].backgroundColor=bc; candleChart.data.datasets[1].borderColor=bb;
-    candleChart.options.scales.y.min=mn; candleChart.options.scales.y.max=mx;
-    candleChart.update('none');
-    currentPrice = newClose;
-    const priceEl = document.getElementById('price-display');
-    const newFmt = formatPrice(currentPrice);
-    const oldVal = parseFloat(priceEl.dataset.last || currentPrice);
-    priceEl.textContent = newFmt;
-    priceEl.dataset.last = currentPrice;
-    priceEl.classList.remove('flash-up','flash-down');
-    void priceEl.offsetWidth;
-    priceEl.classList.add(currentPrice >= oldVal ? 'flash-up' : 'flash-down');
+  // Candlestick series
+  candleSeries = lwChart.addCandlestickSeries({
+    upColor:         '#2d7fe0',
+    downColor:       '#1db8a0',
+    borderUpColor:   '#2d7fe0',
+    borderDownColor: '#1db8a0',
+    wickUpColor:     '#2d7fe080',
+    wickDownColor:   '#1db8a080',
+  });
 
-    // Update sparkline on price card
-    updateSparkline();
-  }, cfg.interval);
+  const ohlc = generateOHLC(cnt, currentPrice, vol);
+  candleSeries.setData(ohlc.map(d => ({ time:d.time, open:d.open, high:d.high, low:d.low, close:d.close })));
+  volumeSeries.setData(ohlc.map(d => ({ time:d.time, value:d.volume, color: d.close >= d.open ? '#2d7fe030' : '#1db8a030' })));
+
+  lwChart.timeScale().fitContent();
+
+  // Resize observer
+  const ro = new ResizeObserver(() => {
+    if (lwChart) lwChart.applyOptions({ width: container.clientWidth });
+  });
+  ro.observe(container);
+
+  // Live candle append
+  const intervalMs = { '1H':8000, '4H':12000, '1D':20000, '1W':35000 };
+  lwInterval = setInterval(() => {
+    if (!candleSeries) return;
+    const last = ohlc[ohlc.length - 1];
+    const move = (Math.random() - 0.47) * vol;
+    const newClose = Math.max(last.close + move, 0.01);
+    const newCandle = {
+      time:  last.time + (activeTF==='1H'?3600:activeTF==='4H'?14400:activeTF==='1D'?86400:604800),
+      open:  last.close,
+      high:  Math.max(last.close, newClose) + Math.random()*vol*0.3,
+      low:   Math.min(last.close, newClose) - Math.random()*vol*0.3,
+      close: newClose,
+    };
+    ohlc.push(newCandle);
+    candleSeries.update(newCandle);
+    volumeSeries.update({ time:newCandle.time, value:Math.floor(Math.random()*8000+1000), color: newClose >= last.close ? '#2d7fe030' : '#1db8a030' });
+    last.close = newClose;
+  }, intervalMs[tf] || 12000);
 }
+
+// TF buttons
+document.querySelectorAll('.tf-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('tf-active'));
+    this.classList.add('tf-active');
+    activeTF = this.textContent.trim();
+    document.getElementById('chart-title').textContent = activeCommodity + ' — ' + activeTF + ' Chart';
+    renderChart(activeTF);
+  });
+});
 
 // ── PRICE / COMMODITY ────────────────────────────────────────────
 function setPrice(commodity) {
@@ -703,7 +719,7 @@ function setPrice(commodity) {
   el.textContent = (up ? '▲ +' : '▼ ') + Math.abs(seed.pct).toFixed(2) + '% today';
   el.style.color = up ? 'var(--mx-teal)' : 'var(--mx-red)';
   document.getElementById('price-label').textContent = commodity.replace(/\s*\(.*?\)/,'') + ' price';
-  document.getElementById('chart-title').textContent = commodity + ' — ' + activeTF + ' chart';
+  document.getElementById('chart-title').textContent = commodity + ' — ' + activeTF + ' Chart';
   renderChart(activeTF);
   renderCommodityData(commodity);
 }
@@ -1711,85 +1727,22 @@ document.querySelectorAll('.tf-btn').forEach(btn => {
   });
 });
 
-// ── ANIMATED SPARKLINE ───────────────────────────────────────────
-const sparkHistory = [];
-function updateSparkline() {
-  sparkHistory.push(currentPrice);
-  if (sparkHistory.length > 20) sparkHistory.shift();
-  if (sparkHistory.length < 2) return;
-  const min = Math.min(...sparkHistory);
-  const max = Math.max(...sparkHistory);
-  const range = max - min || 1;
-  const w = 80, h = 24;
-  const pts = sparkHistory.map((v, i) => {
-    const x = (i / (sparkHistory.length - 1)) * w;
-    const y = h - ((v - min) / range) * (h - 4) - 2;
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(' ');
-  const sparkEl = document.querySelector('.metric:first-child .sparkline polyline');
-  if (sparkEl) sparkEl.setAttribute('points', pts);
-}
-
-// ── LIVE PILL PRICES ─────────────────────────────────────────────
-const pillPrices = {};
-function updatePillPrices() {
-  document.querySelectorAll('.com-pill').forEach(pill => {
-    const name = pill.dataset.name;
-    if (!name || !seedPrices[name]) return;
-    let p = pillPrices[name] || seedPrices[name].price;
-    const drift = (Math.random() - 0.495) * seedPrices[name].price * 0.0003;
-    p = Math.max(p + drift, 0.01);
-    pillPrices[name] = p;
-    const span = pill.querySelector('.pill-price');
-    if (span) {
-      const up = p >= seedPrices[name].price;
-      span.textContent = (up ? '▲' : '▼') + ' ' + formatPrice(p);
-      span.className = 'pill-price ' + (up ? 'up' : 'down');
-    }
-  });
-}
-setInterval(updatePillPrices, 99999999); // disabled - no pills
-
-// ── CROSSHAIR PLUGIN ─────────────────────────────────────────────
-const crosshairPlugin = {
-  id: 'crosshair',
-  afterDraw(chart) {
-    if (chart._crosshairX === undefined) return;
-    const { ctx, chartArea: { top, bottom } } = chart;
-    ctx.save();
-    ctx.strokeStyle = 'rgba(59,156,240,0.3)';
-    ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(chart._crosshairX, top);
-    ctx.lineTo(chart._crosshairX, bottom);
-    ctx.stroke();
-    ctx.restore();
-  }
-};
-Chart.register(crosshairPlugin);
-
-// Add crosshair mouse tracking after chart renders
-function addCrosshair(canvas) {
-  canvas.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    if (candleChart) {
-      candleChart._crosshairX = e.clientX - rect.left;
-      candleChart.draw();
-    }
-  });
-  canvas.addEventListener('mouseleave', () => {
-    if (candleChart) {
-      candleChart._crosshairX = undefined;
-      candleChart.draw();
-    }
-  });
-}
-addCrosshair(document.getElementById('candleChart'));
-
 // ── INIT ─────────────────────────────────────────────────────────
-setPrice('Gold (GC)');
+// Load non-chart content immediately
+const initSeed = seedPrices['Gold (GC)'];
+currentPrice = initSeed.price;
+document.getElementById('price-display').textContent = formatPrice(currentPrice);
+document.getElementById('price-label').textContent = 'Gold price';
+const initEl = document.getElementById('price-change');
+initEl.textContent = '▲ +0.82% today';
+initEl.style.color = 'var(--mx-teal)';
 renderCommodityData('Gold (GC)');
+renderTicker();
+
+// Defer chart until page is fully loaded
+window.addEventListener('load', () => {
+  requestIdleCallback ? requestIdleCallback(() => renderChart('4H'), {timeout:2000}) : setTimeout(() => renderChart('4H'), 500);
+});
 </script>
 </body>
 </html>
